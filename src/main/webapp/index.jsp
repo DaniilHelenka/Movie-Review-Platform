@@ -8,6 +8,6 @@
 <h1><%= "MovieReviewPlatform" %>
 </h1>
 <br/>
-<a href="all-movies">All Movies</a>
+<a href="movies">Все фильмы</a>
 </body>
 </html>
