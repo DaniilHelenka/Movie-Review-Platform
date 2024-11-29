@@ -1,11 +1,18 @@
 package com.example.moviereviewplatform.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
-
+@Entity
+@Table(name = "movies")
 public class Movies {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, length = 255)
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
+
     private String poster_url;
 
     public Movies(Integer id, String name, String description, String poster_url) {
@@ -13,6 +20,10 @@ public class Movies {
         this.name = name;
         this.description = description;
         this.poster_url = poster_url;
+    }
+
+    public Movies() {
+
     }
 
     public Integer getId() {

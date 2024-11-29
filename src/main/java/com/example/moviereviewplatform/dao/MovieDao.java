@@ -41,7 +41,7 @@ public class MovieDao implements Dao<Long, Movies> {
 
     @Override
     public Optional<Movies> findById(Long id) {
-        return Optional.empty();
+        return null;
     }
 
     private Movies buildMovie(ResultSet resultSet) throws SQLException {

@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 @WebServlet("/movies")
-public class MovieServlet extends HttpServlet {
+public class MovieController extends HttpServlet {
     private final MovieService movieService = MovieService.getInstance();
 
     @Override
@@ -25,14 +25,13 @@ public class MovieServlet extends HttpServlet {
             printWriter.write("<ul>");
             movieService.findAll().forEach(movieDto -> {
                 printWriter.write("""
-                <li>
-                    <b>ID:</b> %d <br>
-                    <b>Название:</b> %s <br>
-                    <b>Описание:</b> %s <br>
-                    <b>Постер:</b> <a href="%s" target="_blank">Ссылка на постер</a>
-                </li>
-                <hr>
-                """.formatted(
+                                <li>
+                                  <b>Название:</b> <a href="/MovieReviewPlatform_war_exploded/review?movieId=%d">%s</a> <br>
+                                  <b>Описание:</b> %s <br>
+                                  <b>Постер:</b> %s <br>
+                                 </li>
+                        <hr>
+                        """.formatted(
                         movieDto.getId(),
                         movieDto.getName(),
                         movieDto.getDescription(),
