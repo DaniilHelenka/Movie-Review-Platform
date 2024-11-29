@@ -44,6 +44,11 @@ public class MovieDao implements Dao<Long, Movies> {
         return null;
     }
 
+    @Override
+    public Movies save(Movies entity) {
+        return null;
+    }
+
     private Movies buildMovie(ResultSet resultSet) throws SQLException {
         return new Movies(
                 resultSet.getObject("id", Integer.class),

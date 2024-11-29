@@ -51,6 +51,11 @@ public class ReviewDao implements Dao<Integer, Reviews> {
         }
     }
 
+    @Override
+    public Reviews save(Reviews entity) {
+        return null;
+    }
+
 
     private Reviews buildReview(ResultSet resultSet) throws SQLException {
         return new Reviews(

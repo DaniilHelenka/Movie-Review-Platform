@@ -1,8 +1,17 @@
 package com.example.moviereviewplatform.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.management.relation.Role;
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,10 +31,6 @@ public class User {
 
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-
-    public User() {
-
-    }
 
     public Integer getId() {
         return id;
