@@ -8,8 +8,8 @@ CREATE TABLE users (
                        name VARCHAR(100) NOT NULL,
                        email VARCHAR(100) NOT NULL UNIQUE,
                        password VARCHAR(255) NOT NULL,
-                       role_id INT NOT NULL,
-                       FOREIGN KEY (role_id) REFERENCES roles (id)
+                       role INT NOT NULL,
+                       FOREIGN KEY (role) REFERENCES roles (id)
 );
 
 CREATE TABLE movies (
@@ -41,3 +41,17 @@ CREATE TABLE watchlist (
                            FOREIGN KEY (user_id) REFERENCES users (id),
                            FOREIGN KEY (movie_id) REFERENCES movies (id)
 );
+INSERT INTO movies (name, genre, description, poster_url, release_date)
+VALUES ('Example Movie2', 'Drama', 'An example description2', 'http://example.com/poster.jpg', '2024-11-28');
+
+CREATE TABLE posters (
+                         id SERIAL PRIMARY KEY,
+                         movie_id INT NOT NULL,
+                         poster_url VARCHAR(255) NOT NULL,
+                         FOREIGN KEY (movie_id) REFERENCES movies(id)
+);
+
+INSERT INTO posters (movie_id, poster_url)
+VALUES (3, 'posters/alien.jpg'),
+       (4, 'posters/hancock.jpg'),
+       (5, 'posters/legenda.jpg');

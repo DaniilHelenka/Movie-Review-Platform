@@ -5,13 +5,15 @@ import java.util.Objects;
 public class MovieDto {
     private  Integer id;
     private  String name;
+    private String genre;
     private  String description;
     private   String poster_url;
 
 
-    public MovieDto(Integer id, String name, String description, String poster_url) {
+    public MovieDto(Integer id, String name,String genre, String description, String poster_url) {
         this.id = id;
         this.name = name;
+        this.genre = genre;
         this.description = description;
         this.poster_url = poster_url;
     }
@@ -20,6 +22,9 @@ public class MovieDto {
         return description;
     }
 
+    public String getGenre() {
+        return genre;
+    }
     public Integer getId() {
         return id;
     }
@@ -49,6 +54,9 @@ public class MovieDto {
         return "MovieDto{" +
                "id=" + id +
                ", name='" + name + '\'' +
+               ", genre='" + genre + '\'' +
+               ", description='" + description + '\'' +
+               ", poster_url='" + poster_url + '\'' +
                '}';
     }
 }

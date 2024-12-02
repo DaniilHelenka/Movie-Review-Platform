@@ -1,6 +1,7 @@
 package com.example.moviereviewplatform.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 @Entity
 @Table(name = "movies")
@@ -10,20 +11,41 @@ public class Movies {
     private Integer id;
     @Column(nullable = false, length = 255)
     private String name;
+    @Column(nullable = false, length = 255)
+    private String genre;
     @Column(columnDefinition = "TEXT")
     private String description;
 
     private String poster_url;
+    @Column(name = "release_date")
+    private LocalDateTime release_date;
 
-    public Movies(Integer id, String name, String description, String poster_url) {
+    public Movies(Integer id, String name,String genre, String description, String poster_url) {
         this.id = id;
         this.name = name;
+        this.genre = genre;
         this.description = description;
         this.poster_url = poster_url;
     }
 
     public Movies() {
 
+    }
+
+    public LocalDateTime getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(LocalDateTime release_date) {
+        this.release_date = release_date;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public Integer getId() {
@@ -76,6 +98,7 @@ public class Movies {
         return "Movies{" +
                "id=" + id +
                ", name='" + name + '\'' +
+               ", genre='" + genre + '\'' +
                ", description='" + description + '\'' +
                ", poster_url='" + poster_url + '\'' +
                '}';

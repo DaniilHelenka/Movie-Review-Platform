@@ -15,6 +15,9 @@ public class CreateUserValidator implements Validator<CreateUserDto>{
         var validationResult = new ValidationResult();
 
 
+        if (Role.find(object.getRole()).isEmpty()) {
+            validationResult.add(Error.of("invalid.role", "Role is invalid"));
+        }
         return validationResult;
     }
 
