@@ -5,8 +5,10 @@ import com.example.moviereviewplatform.entity.Role;
 import com.example.moviereviewplatform.entity.User;
 import lombok.NoArgsConstructor;
 
+import static lombok.AccessLevel.PRIVATE;
 
-@NoArgsConstructor
+
+@NoArgsConstructor(access = PRIVATE)
 public class CreateUserMapper implements Mapper<CreateUserDto, User>{
 
     private static final CreateUserMapper INSTANCE = new CreateUserMapper();

@@ -8,15 +8,15 @@ import java.util.Objects;
 public class Reviews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @JoinColumn(name = "movie_id", nullable = false)
     private Integer movieId;
 
     @JoinColumn(name = "user_id", nullable = false)
-    private int userId;
+    private Integer userId;
     @Column(nullable = false)
-    private int rating;
+    private Integer rating;
     @Column(columnDefinition = "TEXT")
     private String comment;
     @Column(name = "created_at", nullable = false, updatable = false)

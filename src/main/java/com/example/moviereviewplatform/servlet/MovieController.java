@@ -1,6 +1,7 @@
 package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +17,16 @@ public class MovieController extends HttpServlet {
     private final MovieService movieService = MovieService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+
+        var movies = movieService.findAll(); // Получаем список фильмов
+        req.setAttribute("movies", movies); // Передаем список в запрос
+        req.getRequestDispatcher((JspHelper.getPath("movies")))
+                .forward(req, resp);
+
+    }
+}
+        /* resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         try (var printWriter = resp.getWriter()) {
@@ -42,5 +51,5 @@ public class MovieController extends HttpServlet {
             });
             printWriter.write("</ul>");
         }
-    }
-}
+    }*/
+

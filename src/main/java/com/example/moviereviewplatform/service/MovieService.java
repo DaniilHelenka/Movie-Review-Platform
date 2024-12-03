@@ -30,12 +30,12 @@ public class MovieService {
                 .collect(toList());
     }
 
-    public void addMovie(String name, String genre, String description, String poster_url, LocalDateTime release_date) {
+    public void addMovie(String name, String genre, String description, String poster, LocalDateTime release_date) {
         Movies movie = new Movies();
         movie.setName(name);
         movie.setGenre(genre);
         movie.setDescription(description);
-        movie.setPoster_url(poster_url);
+        movie.setPoster_url(poster);
         movie.setRelease_date(release_date);
 
         movieDao.save(movie);

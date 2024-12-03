@@ -1,15 +1,10 @@
-CREATE TABLE roles (
-                       id SERIAL PRIMARY KEY,
-                       role_name VARCHAR(50) NOT NULL UNIQUE
-);
-
 CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        name VARCHAR(100) NOT NULL,
                        email VARCHAR(100) NOT NULL UNIQUE,
                        password VARCHAR(255) NOT NULL,
-                       role INT NOT NULL,
-                       FOREIGN KEY (role) REFERENCES roles (id)
+                       role VARCHAR NOT NULL
+
 );
 
 CREATE TABLE movies (
@@ -41,8 +36,8 @@ CREATE TABLE watchlist (
                            FOREIGN KEY (user_id) REFERENCES users (id),
                            FOREIGN KEY (movie_id) REFERENCES movies (id)
 );
-INSERT INTO movies (name, genre, description, poster_url, release_date)
-VALUES ('Example Movie2', 'Drama', 'An example description2', 'http://example.com/poster.jpg', '2024-11-28');
+INSERT INTO movies (name, genre, description, poster, release_date)
+VALUES ('Example Movie3', 'Drama', 'An example description3', '3', '2024-11-28');
 
 CREATE TABLE posters (
                          id SERIAL PRIMARY KEY,
@@ -52,6 +47,6 @@ CREATE TABLE posters (
 );
 
 INSERT INTO posters (movie_id, poster_url)
-VALUES (3, 'posters/alien.jpg'),
-       (4, 'posters/hancock.jpg'),
-       (5, 'posters/legenda.jpg');
+VALUES (1, 'http://localhost:8080/MovieReviewPlatform_war_exploded/posters/alien.jpg'),
+       (2, 'http://localhost:8080/MovieReviewPlatform_war_exploded/posters/hancock.jpg'),
+       (3, 'http://localhost:8080/MovieReviewPlatform_war_exploded/posters/legenda.jpg');

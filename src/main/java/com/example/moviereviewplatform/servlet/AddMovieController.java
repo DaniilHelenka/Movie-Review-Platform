@@ -1,6 +1,8 @@
 package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.util.JspHelper;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,40 +18,23 @@ public class AddMovieController extends HttpServlet {
     private final MovieService movieService = MovieService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html");
-        resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-        try (var writer = resp.getWriter()) {
-            writer.write("""
-                    <h1>Добавить фильм</h1>
-                        <form action="/movies/add" method="POST">
-                                   <input type="text" name="name" placeholder="Название фильма">
-                                   <input type="text" name="genre" placeholder="Жанр">
-                                   <input type="text" name="description" placeholder="Описание">
-                                   <input type="text" name="poster_url" placeholder="Ссылка на постер">
-                                   <input type="datetime-local" name="release_date">
-                                   <button type="submit">Добавить фильм</button>
-                               </form>
-                    """);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.getRequestDispatcher((JspHelper.getPath("addMovie")))
+                .forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println("AddMovieController.doPost");
         req.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         String name = req.getParameter("name");
         String genre = req.getParameter("genre");
         String description = req.getParameter("description");
-        String poster_url = req.getParameter("poster_url");
+        String poster = req.getParameter("poster");
         LocalDateTime release_date = LocalDateTime.parse(req.getParameter("release_date"));
-        System.out.println("AddMovieController.doPost.addMovie");
-        movieService.addMovie(name, genre, description, poster_url, release_date);
 
-        resp.sendRedirect("/movies");
+        movieService.addMovie(name, genre, description, poster, release_date);
+
+        resp.sendRedirect(req.getContextPath() + "/movies");
     }
 }

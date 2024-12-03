@@ -2,6 +2,7 @@ package com.example.moviereviewplatform.dao;
 
 import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.util.ConnectionManager;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.sql.*;
@@ -9,11 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
+import static lombok.AccessLevel.PRIVATE;
 
+@NoArgsConstructor(access = PRIVATE)
 public class UserDao implements Dao<Integer, User>{
     private  static  final UserDao INSTANCE = new UserDao();
 
-    private final static String SAVE_SQL = "INSERT INTO users(name, email, password, role) values" +
+    private final static String SAVE_SQL =
+            "INSERT INTO users(name, email, password, role) values" +
             "(?, ?, ? ,?)";
     @Override
     @SneakyThrows

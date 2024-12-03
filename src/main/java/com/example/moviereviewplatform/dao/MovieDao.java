@@ -24,7 +24,7 @@ public class MovieDao implements Dao<Long, Movies> {
             FROM movies
             """;
     private static final String INSERT_MOVIE_SQL = """
-        INSERT INTO movies (name, genre, description, poster_url, release_date) 
+        INSERT INTO movies (name, genre, description, poster, release_date) 
         VALUES (?, ?, ?, ?, ?)
         """;
 

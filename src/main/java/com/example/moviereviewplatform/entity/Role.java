@@ -1,6 +1,5 @@
 package com.example.moviereviewplatform.entity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
