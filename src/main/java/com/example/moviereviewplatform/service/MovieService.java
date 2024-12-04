@@ -4,7 +4,7 @@ import com.example.moviereviewplatform.dao.MovieDao;
 import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.entity.Movies;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -14,7 +14,6 @@ public class MovieService {
     private static final MovieService INSTANCE = new MovieService();
 
     private final MovieDao movieDao = MovieDao.getInstance();
-
     public MovieService() {
     }
 
@@ -30,7 +29,7 @@ public class MovieService {
                 .collect(toList());
     }
 
-    public void addMovie(String name, String genre, String description, String poster, LocalDateTime release_date) {
+    public void addMovie(String name, String genre, String description, String poster, LocalDate release_date) {
         Movies movie = new Movies();
         movie.setName(name);
         movie.setGenre(genre);
@@ -39,6 +38,10 @@ public class MovieService {
         movie.setRelease_date(release_date);
 
         movieDao.save(movie);
+        //addPoster
+    }
+    public boolean deleteMovie(Integer id) {
+        return movieDao.deleteById(id);
     }
 
     public static MovieService getInstance() {

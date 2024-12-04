@@ -1,8 +1,10 @@
 package com.example.moviereviewplatform.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
 @Entity
 @Table(name = "movies")
 public class Movies {
@@ -18,34 +20,19 @@ public class Movies {
 
     private String poster_url;
     @Column(name = "release_date")
-    private LocalDateTime release_date;
+    private LocalDate release_date;
 
-    public Movies(Integer id, String name,String genre, String description, String poster_url) {
+    public Movies(Integer id, String name, String genre, String description, String poster_url, LocalDate release_date) {
         this.id = id;
         this.name = name;
         this.genre = genre;
         this.description = description;
         this.poster_url = poster_url;
+        this.release_date = LocalDate.from(release_date);
     }
 
     public Movies() {
 
-    }
-
-    public LocalDateTime getRelease_date() {
-        return release_date;
-    }
-
-    public void setRelease_date(LocalDateTime release_date) {
-        this.release_date = release_date;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 
     public Integer getId() {
@@ -64,6 +51,14 @@ public class Movies {
         this.name = name;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -78,6 +73,14 @@ public class Movies {
 
     public void setPoster_url(String poster_url) {
         this.poster_url = poster_url;
+    }
+
+    public LocalDate getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(LocalDate release_date) {
+        this.release_date = release_date;
     }
 
     @Override
@@ -101,6 +104,7 @@ public class Movies {
                ", genre='" + genre + '\'' +
                ", description='" + description + '\'' +
                ", poster_url='" + poster_url + '\'' +
+               ", release_date=" + release_date +
                '}';
     }
 }

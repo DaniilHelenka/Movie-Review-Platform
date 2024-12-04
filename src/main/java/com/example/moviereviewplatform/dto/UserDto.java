@@ -1,5 +1,6 @@
 package com.example.moviereviewplatform.dto;
 
+import com.example.moviereviewplatform.entity.Role;
 import lombok.Builder;
 import lombok.Value;
 
@@ -7,5 +8,8 @@ import lombok.Value;
 @Builder
 public class UserDto {
     Integer id;
-    String mail;
+    String name;
+    String email;
+    String image;
+    Role role;
 }

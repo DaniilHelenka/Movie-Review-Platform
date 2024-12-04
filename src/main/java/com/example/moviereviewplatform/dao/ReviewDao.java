@@ -93,6 +93,11 @@ public class ReviewDao implements Dao<Integer, Reviews> {
         }
     }
 
+    @Override
+    public boolean deleteById(Integer id) {
+        return false;
+    }
+
 
     private Reviews buildReview(ResultSet resultSet) throws SQLException {
         return new Reviews(

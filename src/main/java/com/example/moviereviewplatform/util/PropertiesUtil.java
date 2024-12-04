@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public final class PropertiesUtil {
-    private final Properties properties = new Properties();
+    private static final Properties properties = new Properties();
 
     public PropertiesUtil() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
@@ -28,5 +28,8 @@ public final class PropertiesUtil {
 
     public String getPassword() {
         return properties.getProperty("db.password");
+    }
+    public static String get(String key) {
+        return properties.getProperty("image.base.url");
     }
 }

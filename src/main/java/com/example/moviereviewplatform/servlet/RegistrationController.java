@@ -6,6 +6,7 @@ import com.example.moviereviewplatform.exception.ValidationException;
 import com.example.moviereviewplatform.service.UserService;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/registration")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024)
+@WebServlet(value = "/registration")
 public class RegistrationController extends HttpServlet {
 
     private final UserService userService = UserService.getInstance();
@@ -29,8 +31,9 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-       var userDto =  CreateUserDto.builder()
+        var userDto =  CreateUserDto.builder()
                .name(req.getParameter("name"))
+                .image(req.getPart("image"))
                .email(req.getParameter("email"))
                .password(req.getParameter("password"))
                .role(req.getParameter("role"))

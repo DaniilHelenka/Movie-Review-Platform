@@ -20,7 +20,11 @@
 </div>
 <% } %>
 
-<form action="<%= request.getContextPath() %>/registration" method="post">
+<form action="<%= request.getContextPath() %>/registration" method="post" enctype="multipart/form-data">
+    <label for="imageId">Image:
+        <input type="file" name="image" id="imageId" required>
+    </label>
+    <br>
     <label for="name">Name:
         <input type="text" name="name" id="name" required minlength="3">
     </label>

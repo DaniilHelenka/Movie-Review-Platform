@@ -1,5 +1,6 @@
 package com.example.moviereviewplatform.dto;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class MovieDto {
@@ -8,9 +9,10 @@ public class MovieDto {
     private String genre;
     private  String description;
     private   String poster_url;
+    private LocalDate release_date;
 
 
-    public MovieDto(Integer id, String name,String genre, String description, String poster_url) {
+    public MovieDto(Integer id, String name, String genre, String description, String poster_url) {
         this.id = id;
         this.name = name;
         this.genre = genre;
