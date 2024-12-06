@@ -1,7 +1,9 @@
 package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.dto.ReviewDto;
+import com.example.moviereviewplatform.dto.UserDto;
 import com.example.moviereviewplatform.service.ReviewService;
+import com.example.moviereviewplatform.service.UserService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import java.util.List;
 @WebServlet("/review")
 public class ReviewController extends HttpServlet {
     private final ReviewService reviewService = ReviewService.getInstance();
+    private final UserService userService = UserService.getInstance();
 
     @SneakyThrows
     @Override
@@ -45,13 +48,21 @@ public class ReviewController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding(StandardCharsets.UTF_8.name()); // Устанавливаем кодировку
 
-        Integer user_id = Integer.parseInt(req.getParameter("user_id"));
+        //userService.getId((Integer) req.getSession().getAttribute("user_id"));
+        Integer user_id =2;
+        //Integer user_id = Integer.valueOf(req.getParameter("user_id"));
         Integer movie_id = Integer.parseInt(req.getParameter("movie_id"));
         Integer rating = Integer.parseInt(req.getParameter("rating"));
-        String comment = req.getParameter("comment");
+        String comments = req.getParameter("comments");
         LocalDateTime created_at = LocalDateTime.now();
 
-        reviewService.addReview(user_id, movie_id, rating, comment, created_at);
-        resp.sendRedirect("/review?movieId=" + movie_id);
+        reviewService.addReview(user_id, movie_id, rating, comments, created_at);
+        resp.sendRedirect("/MovieReviewPlatform_war_exploded/review?movieId=" + movie_id);
+    }
+
+
+    @SneakyThrows
+    private void postReview(UserDto user, HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().setAttribute("user", user);
     }
 }

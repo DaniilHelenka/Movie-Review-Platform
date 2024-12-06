@@ -26,30 +26,4 @@ public class MovieController extends HttpServlet {
 
     }
 }
-        /* resp.setContentType("text/html");
-        resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-        try (var printWriter = resp.getWriter()) {
-            printWriter.write("<h1>Все фильмы</h1>");
-            printWriter.write("<ul>");
-            movieService.findAll().forEach(movieDto -> {
-                printWriter.write("""
-                                <li>
-                                  <b>Название:</b> <a href="/MovieReviewPlatform_war_exploded/review?movieId=%d">%s</a> <br>
-                                  <b>Жанр:</b> %s <br>
-                                  <b>Описание:</b> %s <br>
-                                  <b>Постер:</b> <img src="%s" alt="постер фильма" width="200px"/><br>
-                                 </li>
-                        <hr>
-                        """.formatted(
-                        movieDto.getId(),
-                        movieDto.getName(),
-                        movieDto.getGenre(),
-                        movieDto.getDescription(),
-                        movieDto.getPoster_url()
-                ));
-            });
-            printWriter.write("</ul>");
-        }
-    }*/
 

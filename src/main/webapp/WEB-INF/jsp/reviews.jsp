@@ -12,6 +12,7 @@
     <title>Reviews</title>
 </head>
 <body>
+<%@include file="header.jsp"%>
 <h1>Отзывы о фильме</h1>
 
 <!-- Проверка наличия отзывов -->
@@ -33,7 +34,7 @@
     <li>
         <strong>Id:</strong> <%= review.getId() %> <br>
         <strong>Рейтинг:</strong> <%= review.getRating() %> <br>
-        <strong>Комментарий:</strong> <%= review.getComment() %> <br>
+        <strong>Комментарий:</strong> <%= review.getComments() %> <br>
         <strong>Дата:</strong> <%= formattedDate %> <br>
         <hr>
     </li>
@@ -52,8 +53,8 @@
     <label for="rating">Рейтинг (1-10):</label>
     <input type="number" name="rating" id="rating" min="1" max="10" required><br>
 
-    <label for="comment">Комментарий:</label><br>
-    <textarea name="comment" id="comment" required></textarea><br>
+    <label for="comments">Комментарий:</label><br>
+    <textarea name="comments" id="comments" required></textarea><br>
 
     <button type="submit">Добавить отзыв</button>
 </form>

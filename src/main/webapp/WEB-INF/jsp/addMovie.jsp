@@ -22,7 +22,7 @@
   <input type="url" id="poster_url" name="poster_url" placeholder="Ссылка на постер" required><br><br>
 
   <label for="release_date">Дата выхода:</label><br>
-  <input type="datetime-local" id="release_date" name="release_date" required><br><br>
+  <input type="date" id="release_date" name="release_date" required><br><br>
 
   <button type="submit">Добавить фильм</button>
 </form>

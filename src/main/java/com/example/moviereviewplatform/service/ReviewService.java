@@ -16,23 +16,13 @@ public class ReviewService {
     private ReviewService(){
     }
 
-    public List<ReviewDto> findById(Integer movieId){
-        return reviewDao.findById(movieId).stream()
-                .map(review -> new ReviewDto(
-                        review.getId(),
-                        review.getRating(),
-                        review.getMovieId(),
-                        review.getComment(),
-                        review.getCreatedAt()
-                ))
-                .collect(toList());
-    }
-    public void addReview(Integer user_id, Integer movie_id, Integer rating, String comment, LocalDateTime created_at) {
+    public void addReview(Integer user_id, Integer movie_id, Integer rating, String comments, LocalDateTime created_at) {
         Reviews reviews = new Reviews();
+
         reviews.setUserId(user_id);
         reviews.setMovieId(movie_id);
         reviews.setRating(rating);
-        reviews.setComment(comment);
+        reviews.setComments(comments);
         reviews.setCreatedAt(created_at);
 
         reviewDao.save(reviews);
@@ -50,7 +40,7 @@ public class ReviewService {
                         reviews.getUserId(),
                         reviews.getMovieId(),
                         reviews.getRating(),
-                        reviews.getComment(),
+                        reviews.getComments(),
                         reviews.getCreatedAt()
                 ))
                 .collect(toList());

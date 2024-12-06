@@ -39,6 +39,6 @@ public class LoginController extends HttpServlet {
     @SneakyThrows
     private void onLoginSuccess(UserDto user, HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().setAttribute("user", user);
-        resp.sendRedirect("/MovieReviewPlatform_war_exploded/movies");
+        resp.sendRedirect("/MovieReviewPlatform_war_exploded/user");
     }
 }

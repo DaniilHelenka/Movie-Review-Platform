@@ -18,6 +18,10 @@ public final class PropertiesUtil {
         }
     }
 
+    public String get() {
+        return properties.getProperty("image.base.url");
+    }
+
     public String getUrl() {
         return properties.getProperty("db.url");
     }
@@ -28,8 +32,5 @@ public final class PropertiesUtil {
 
     public String getPassword() {
         return properties.getProperty("db.password");
-    }
-    public static String get(String key) {
-        return properties.getProperty("image.base.url");
     }
 }

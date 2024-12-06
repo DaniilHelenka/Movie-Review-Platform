@@ -1,10 +1,19 @@
 package com.example.moviereviewplatform.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 @Entity
 @Table(name = "reviews")
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reviews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,23 +27,20 @@ public class Reviews {
     @Column(nullable = false)
     private Integer rating;
     @Column(columnDefinition = "TEXT")
-    private String comment;
+    private String comments;
     @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
-    public Reviews(int id, int movieId, int userId, int rating, String comment, LocalDateTime createdAt) {
+    public Reviews(int id, int movieId, int userId, int rating, String comments, LocalDateTime createdAt) {
         this.id = id;
         this.movieId = movieId;
         this.userId = userId;
         this.rating = rating;
-        this.comment = comment;
+        this.comments = comments;
         this.createdAt = createdAt;
     }
 
-    public Reviews() {
-
-    }
 
     public int getId() {
         return id;
@@ -68,12 +74,12 @@ public class Reviews {
         this.rating = rating;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -104,7 +110,7 @@ public class Reviews {
                ", movieId=" + movieId +
                ", userId=" + userId +
                ", rating=" + rating +
-               ", comment='" + comment + '\'' +
+               ", comments='" + comments + '\'' +
                ", createdAt=" + createdAt +
                '}';
     }

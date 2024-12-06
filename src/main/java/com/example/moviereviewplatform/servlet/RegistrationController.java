@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@MultipartConfig(fileSizeThreshold = 1024 * 1024)
+@MultipartConfig(fileSizeThreshold = 256*256)
 @WebServlet(value = "/registration")
 public class RegistrationController extends HttpServlet {
 

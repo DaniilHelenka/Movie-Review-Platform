@@ -3,6 +3,7 @@ package com.example.moviereviewplatform.service;
 import com.example.moviereviewplatform.dao.UserDao;
 import com.example.moviereviewplatform.dto.CreateUserDto;
 import com.example.moviereviewplatform.dto.UserDto;
+import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.exception.ValidationException;
 import com.example.moviereviewplatform.mapper.CreateUserMapper;
 import com.example.moviereviewplatform.mapper.UserMapper;
@@ -27,6 +28,9 @@ public class UserService {
     public Optional<UserDto> login(String email, String password) {
         return userDao.findByEmailAndPassword(email, password)
                 .map(userMapper::mapFrom);
+    }
+    public Optional<User> getUserById(Integer user_id) {
+        return userDao.findById(user_id);
     }
 
     @SneakyThrows

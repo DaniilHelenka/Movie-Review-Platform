@@ -10,6 +10,7 @@
     <title>Все фильмы</title>
 </head>
 <body>
+<%@include file="header.jsp"%>
 <h1>Все фильмы</h1>
 <ul>
     <%

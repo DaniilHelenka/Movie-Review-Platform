@@ -5,6 +5,7 @@ import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Reviews;
 import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.util.ConnectionManager;
+import lombok.NoArgsConstructor;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@NoArgsConstructor
 public class ReviewDao implements Dao<Integer, Reviews> {
     private static final ReviewDao INSTANCE = new ReviewDao();
     public  static final String FIND_BY_ID = """
@@ -19,13 +21,11 @@ public class ReviewDao implements Dao<Integer, Reviews> {
                           FROM reviews
                           WHERE movie_id = ?;                     
                                              """;
-    public static final String INSERT_REVIEW_SQL = "INSERT INTO reviews (user_id, movie_id, rating, comment) VALUES (?, ?, ?, ?)";
-    public static final String FIND_ALL_REVIEWS = "SELECT r.id, r.movie_id, r.rating, r.comment, r.created_at, u.id AS user_id " +
+    public static final String INSERT_REVIEW_SQL = "INSERT INTO reviews (user_id, movie_id, rating, comments, created_at) VALUES (? ,?, ?, ?, ?)";
+    public static final String FIND_ALL_REVIEWS = "SELECT r.id, r.movie_id, r.rating, r.comments, r.created_at, u.id AS user_id " +
                                                    "FROM reviews r " +
                                                    "JOIN users u ON r.user_id = u.id";
 
-    private ReviewDao() {
-    }
 
     public static ReviewDao getInstance() {
         return INSTANCE;
@@ -75,7 +75,8 @@ public class ReviewDao implements Dao<Integer, Reviews> {
             preparedStatement.setInt(1, review.getUserId());    // user_id
             preparedStatement.setInt(2, review.getMovieId());   // movie_id
             preparedStatement.setInt(3, review.getRating());    // rating
-            preparedStatement.setString(4, review.getComment()); // comment
+            preparedStatement.setObject(4, review.getComments()); // comment
+            preparedStatement.setObject(5, review.getCreatedAt());
 
             // Выполняем запрос
             int affectedRows = preparedStatement.executeUpdate();
@@ -105,7 +106,7 @@ public class ReviewDao implements Dao<Integer, Reviews> {
                     resultSet.getObject("movie_id", Integer.class),
                     resultSet.getObject("user_id", Integer.class),
                     resultSet.getObject("rating", Integer.class),
-                    resultSet.getObject("comment", String.class),
+                    resultSet.getObject("comments", String.class),
                     resultSet.getObject("created_at", LocalDateTime.class)
         );
     }

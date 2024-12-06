@@ -1,19 +1,24 @@
 package com.example.moviereviewplatform.dto;
 
+import lombok.Builder;
+import lombok.Value;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Value
+@Builder
 public class ReviewDto {
-    private  int id;
-    private  int movieId;
-    private int rating;
-    private String comment;
-    private LocalDateTime created_at;
+    Integer id;
+    Integer movieId;
+    Integer rating;
+    String comments;
+    LocalDateTime created_at;
 
-    public ReviewDto(int id, int movieId, int rating, String comment, LocalDateTime created_at) {
+    public ReviewDto(int id, int movieId, int rating, String comments, LocalDateTime created_at) {
         this.id = id;
         this.rating = rating;
-        this.comment = comment;
+        this.comments = comments;
         this.created_at = created_at;
         this.movieId = movieId;
     }
@@ -30,8 +35,8 @@ public class ReviewDto {
         return rating;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComments() {
+        return comments;
     }
 
     public LocalDateTime getCreated_at() {
@@ -57,7 +62,7 @@ public class ReviewDto {
                "id=" + id +
                ", movieId=" + movieId +
                ", rating=" + rating +
-               ", comment='" + comment + '\'' +
+               ", comments='" + comments + '\'' +
                ", created_at=" + created_at +
                '}';
     }
