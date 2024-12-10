@@ -1,5 +1,7 @@
 package com.example.moviereviewplatform.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

@@ -13,7 +13,6 @@ CREATE TABLE movies (
                         name VARCHAR(255) NOT NULL,
                         genre VARCHAR(100),
                         description TEXT,
-                        poster VARCHAR(255),
                         release_date DATE
 );
 
@@ -37,8 +36,8 @@ CREATE TABLE watchlist (
                            FOREIGN KEY (user_id) REFERENCES users (id),
                            FOREIGN KEY (movie_id) REFERENCES movies (id)
 );
-INSERT INTO movies (name, genre, description, poster, release_date)
-VALUES ('Example Movie3', 'Drama', 'An example description3', '3', '2024-11-28');
+INSERT INTO movies (name, genre, description,  release_date)
+VALUES ('Example Movie3', 'Drama', 'An example description3', '2024-11-28');
 
 CREATE TABLE posters (
                          id SERIAL PRIMARY KEY,

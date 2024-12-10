@@ -1,5 +1,6 @@
 package com.example.moviereviewplatform.dao;
 
+import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Role;
 import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.util.ConnectionManager;
@@ -94,6 +95,11 @@ public class UserDao implements Dao<Integer, User> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Movies> getTopRatedMovies() {
+        return null;
     }
 
     private User buildEntity(ResultSet resultSet) throws java.sql.SQLException {

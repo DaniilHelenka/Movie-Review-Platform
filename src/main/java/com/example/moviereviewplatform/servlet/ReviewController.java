@@ -1,7 +1,9 @@
 package com.example.moviereviewplatform.servlet;
 
+import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.dto.ReviewDto;
 import com.example.moviereviewplatform.dto.UserDto;
+import com.example.moviereviewplatform.service.MovieService;
 import com.example.moviereviewplatform.service.ReviewService;
 import com.example.moviereviewplatform.service.UserService;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,11 +16,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet("/review")
 public class ReviewController extends HttpServlet {
     private final ReviewService reviewService = ReviewService.getInstance();
     private final UserService userService = UserService.getInstance();
+    private final MovieService movieService = MovieService.getInstance();
+    private static final String USER = "user";
 
     @SneakyThrows
     @Override
@@ -32,6 +37,15 @@ public class ReviewController extends HttpServlet {
             int movieId = Integer.parseInt(movieIdParam);
             // Получаем все отзывы для фильма
             List<ReviewDto> reviews = reviewService.findAll(movieId);
+
+            Optional<MovieDto> movieOptional = movieService.findById(movieId);
+            if (movieOptional.isEmpty()) {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Фильм с указанным идентификатором не найден.");
+                return;
+            }
+            MovieDto movie = movieOptional.get();
+            req.setAttribute("movieName", movie.getName());
+            req.setAttribute("poster", movie.getPoster_url());
 
             // Добавляем отзывы в запрос для передачи в JSP
             req.setAttribute("reviews", reviews);
@@ -47,7 +61,9 @@ public class ReviewController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding(StandardCharsets.UTF_8.name()); // Устанавливаем кодировку
-
+        // Получаем usera
+        var session = req.getSession();
+        var user = (UserDto) session.getAttribute(USER);
         //userService.getId((Integer) req.getSession().getAttribute("user_id"));
         Integer user_id =2;
         //Integer user_id = Integer.valueOf(req.getParameter("user_id"));

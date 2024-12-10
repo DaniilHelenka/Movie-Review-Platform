@@ -4,11 +4,8 @@ import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.service.MovieService;
 import com.example.moviereviewplatform.util.ConnectionManager;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,17 +13,33 @@ import java.util.Optional;
 public class MovieDao implements Dao<Integer, Movies> {
     private static final MovieService movieService = new MovieService();
     private static final MovieDao INSTANCE = new MovieDao();
+
+    private static final String GET_TOP_RATED_MOVIES_QUERY = """
+            SELECT 
+                m.id, 
+                m.name, 
+                m.genre, 
+                m.description, 
+                AVG(r.rating) AS average_rating, 
+                COUNT(r.id) AS review_count
+            FROM movies m
+            JOIN reviews r ON m.id = r.movie_id
+            GROUP BY m.id, m.name, m.genre, m.description
+            ORDER BY average_rating DESC, review_count DESC
+            LIMIT 10;
+            """;
     public static final String FIND_ALL_MOVIES_WITH_POSTER = """
                 SELECT m.id, m.name, m.genre, m.description, p.poster_url, m.release_date
                 FROM movies m
                 LEFT JOIN posters p ON m.id = p.movie_id;
             """;
     private static final String INSERT_MOVIE_SQL = """
-            INSERT INTO movies (name, genre, description, poster, release_date) 
+            INSERT INTO movies (name, genre, description, release_date, poster_url) 
             VALUES (?, ?, ?, ?, ?)
             """;
     private static final String DELETE_MOVIE_SQL =
             "DELETE FROM movies WHERE id = ?";
+
 
 
     private MovieDao() {
@@ -38,21 +51,57 @@ public class MovieDao implements Dao<Integer, Movies> {
 
     @Override
     public List<Movies> findAll() {
+        String query = "SELECT id, name, genre, description, poster_url, release_date FROM movies";
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(FIND_ALL_MOVIES_WITH_POSTER)) {
+             var preparedStatement = connection.prepareStatement(query)) {
             var resultSet = preparedStatement.executeQuery();
             List<Movies> movies = new ArrayList<>();
-            while (resultSet.next()){
-                movies.add(buildMovie(resultSet));
+            while (resultSet.next()) {
+                movies.add(buildMovie(resultSet)); // Метод buildMovie заполняет объект Movies из ResultSet
             }
             return movies;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при выполнении запроса findAll: " + e.getMessage(), e);
         }
     }
     @Override
     public Optional<Movies> findById(Integer id) {
+        String sql = "SELECT * FROM movies WHERE id = ?";
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(buildMovie(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return Optional.empty();
+    }
+    @Override
+    public List<Movies> getTopRatedMovies() {
+        List<Movies> topMovies = new ArrayList<>();
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(GET_TOP_RATED_MOVIES_QUERY);
+             var resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Movies movies = Movies.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .genre(resultSet.getString("genre"))
+                        .description(resultSet.getString("description"))
+                        .build();
+                topMovies.add(movies);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topMovies;
     }
 
     @Override
@@ -63,8 +112,8 @@ public class MovieDao implements Dao<Integer, Movies> {
             preparedStatement.setString(1, movie.getName());
             preparedStatement.setString(2, movie.getGenre());
             preparedStatement.setString(3, movie.getDescription());
-            preparedStatement.setString(4, movie.getPoster_url());
-            preparedStatement.setObject(5, movie.getRelease_date());
+            preparedStatement.setObject(4, movie.getRelease_date());
+            preparedStatement.setObject(5, movie.getPoster_url());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +53,7 @@
     </style>
 </head>
 <body>
+<%@include file="header.jsp"%>
 <div class="container">
     <h2>Удаление фильма</h2>
     <form action="/MovieReviewPlatform_war_exploded/movies/delete" method="post">

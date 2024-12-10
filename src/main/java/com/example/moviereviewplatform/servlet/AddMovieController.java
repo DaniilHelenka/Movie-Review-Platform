@@ -1,5 +1,8 @@
 package com.example.moviereviewplatform.servlet;
 
+import com.example.moviereviewplatform.dto.CreateMovieDto;
+import com.example.moviereviewplatform.dto.CreateUserDto;
+import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.service.MovieService;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
@@ -8,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -27,17 +31,19 @@ public class AddMovieController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        String name = req.getParameter("name");
-        String genre = req.getParameter("genre");
-        String description = req.getParameter("description");
-        String poster = req.getParameter("poster");
-        LocalDate release_date = LocalDate.parse(req.getParameter("release_date"));
+        var movieDto =  CreateMovieDto.builder()
+                .name(req.getParameter("name"))
+                .genre(req.getParameter("genre"))
+                .description(req.getParameter("description"))
+                .release_date(LocalDate.parse(req.getParameter("release_date")))
+                .poster_url(req.getPart("poster_url"))
+                .build();
 
-        movieService.addMovie(name, genre, description, poster, release_date);
+        movieService.addMovie(movieDto);
 
-        resp.sendRedirect(req.getContextPath() + "/MovieReviewPlatform_war_exploded/movies");
+        resp.sendRedirect( "/MovieReviewPlatform_war_exploded/movies");
     }
 }

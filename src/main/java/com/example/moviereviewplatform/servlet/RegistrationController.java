@@ -14,7 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@MultipartConfig(fileSizeThreshold = 256*256)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,  // 1MB
+        maxFileSize = 1024 * 1024 * 10,  // 10MB
+        maxRequestSize = 1024 * 1024 * 50,  // 50MB
+        location = "F:/work/images")
 @WebServlet(value = "/registration")
 public class RegistrationController extends HttpServlet {
 
@@ -31,21 +34,21 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        var userDto =  CreateUserDto.builder()
-               .name(req.getParameter("name"))
+        var userDto = CreateUserDto.builder()
+                .name(req.getParameter("name"))
                 .image(req.getPart("image"))
-               .email(req.getParameter("email"))
-               .password(req.getParameter("password"))
-               .role(req.getParameter("role"))
-               .build();
+                .email(req.getParameter("email"))
+                .password(req.getParameter("password"))
+                .role(req.getParameter("role"))
+                .build();
 
-       try{
+        try {
 
-           userService.create(userDto);
-              resp.sendRedirect("/login");
-       }catch (ValidationException exception){
-           req.setAttribute("error", exception.getErrors());
-           doGet(req, resp);
-       }
+            userService.create(userDto);
+            resp.sendRedirect("/MovieReviewPlatform_war_exploded/login");
+        } catch (ValidationException exception) {
+            req.setAttribute("error", exception.getErrors());
+            doGet(req, resp);
+        }
     }
 }

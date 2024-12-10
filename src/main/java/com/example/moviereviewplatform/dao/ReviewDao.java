@@ -66,6 +66,11 @@ public class ReviewDao implements Dao<Integer, Reviews> {
     }
 
     @Override
+    public List<Movies> getTopRatedMovies() {
+        return null;
+    }
+
+    @Override
     public Reviews save(Reviews review) {
 
         try (var connection = ConnectionManager.get();

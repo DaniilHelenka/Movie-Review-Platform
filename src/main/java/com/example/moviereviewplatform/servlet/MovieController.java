@@ -1,6 +1,8 @@
 package com.example.moviereviewplatform.servlet;
 
+import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.service.RecommendationService;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,6 +22,10 @@ public class MovieController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         var movies = movieService.findAll(); // Получаем список фильмов
+        for (MovieDto movie : movies) {
+            req.setAttribute("poster", movie.getPoster_url());
+        }
+
         req.setAttribute("movies", movies); // Передаем список в запрос
         req.getRequestDispatcher((JspHelper.getPath("movies")))
                 .forward(req, resp);

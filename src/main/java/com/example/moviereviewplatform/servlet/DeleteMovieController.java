@@ -33,7 +33,7 @@ public class DeleteMovieController extends HttpServlet {
             boolean isDeleted = movieService.deleteMovie(movieId);
 
             if (isDeleted) {
-                resp.sendRedirect("movies"); // Успешно удален, редирект на список фильмов
+                resp.sendRedirect("/MovieReviewPlatform_war_exploded/movies"); // Успешно удален, редирект на список фильмов
             } else {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Фильм с таким ID не найден");
             }
