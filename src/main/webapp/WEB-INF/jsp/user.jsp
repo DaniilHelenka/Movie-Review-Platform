@@ -1,6 +1,6 @@
 <%@ page import="com.example.moviereviewplatform.dto.UserDto" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.moviereviewplatform.entity.Watchlist" %>
+<%@ page import="com.example.moviereviewplatform.dto.WatchlistDto" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,14 +133,14 @@
         <h2>Буду смотреть</h2>
         <ul>
             <%
-                List<Watchlist> watchingList = (List<Watchlist>) request.getAttribute("watchingList");
+                List<WatchlistDto> watchingList = (List<WatchlistDto>) request.getAttribute("watchingList");
                 if (watchingList != null && !watchingList.isEmpty()) {
-                    for (Watchlist item : watchingList) {
+                    for (WatchlistDto item : watchingList) {
             %>
             <li>
                 <b>Название фильма:</b> <%= item.getMovieName() %>
                 <form action="<%= request.getContextPath() + "/watchlist/remove" %>" method="post" style="display:inline;">
-                    <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
+                    <input type="hidden" name="movie_id" value="<%= item.getId() %>">
                     <input type="hidden" name="list_type" value="watching">
                     <button type="submit">Удалить</button>
                 </form>
@@ -158,14 +158,14 @@
         <h2>Посмотрено</h2>
         <ul>
             <%
-                List<Watchlist> watchedList = (List<Watchlist>) request.getAttribute("watchedList");
+                List<WatchlistDto> watchedList = (List<WatchlistDto>) request.getAttribute("watchedList");
                 if (watchedList != null && !watchedList.isEmpty()) {
-                    for (Watchlist item : watchedList) {
+                    for (WatchlistDto item : watchedList) {
             %>
             <li>
                 <b>Название фильма:</b> <%= item.getMovieName() %>
                 <form action="<%= request.getContextPath() + "/watchlist/remove" %>" method="post" style="display:inline;">
-                    <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
+                    <input type="hidden" name="movie_id" value="<%= item.getId() %>">
                     <input type="hidden" name="list_type" value="watched">
                     <button type="submit">Удалить</button>
                 </form>

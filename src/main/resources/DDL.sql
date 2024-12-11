@@ -28,14 +28,15 @@ CREATE TABLE reviews (
 );
 
 CREATE TABLE watchlist (
-                           id SERIAL PRIMARY KEY,
-                           user_id INT NOT NULL,
-                           movie_id INT NOT NULL,
-                           list_type VARCHAR(10) CHECK (list_type IN ('watching', 'watched')),
-                           UNIQUE (user_id, movie_id, list_type),
-                           FOREIGN KEY (user_id) REFERENCES users (id),
-                           FOREIGN KEY (movie_id) REFERENCES movies (id)
+                           id SERIAL PRIMARY KEY,                  -- Уникальный идентификатор записи
+                           user_id INT NOT NULL,                   -- ID пользователя
+                           movie_id INT NOT NULL,                  -- ID фильма
+                           list_type VARCHAR(50) NOT NULL,         -- Тип списка: "watching" или "watched"
+                           CONSTRAINT uc_user_movie UNIQUE (user_id, movie_id, list_type), -- Уникальность комбинации user_id, movie_id и list_type
+                           CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+                           CONSTRAINT fk_movie FOREIGN KEY (movie_id) REFERENCES movies (id) ON DELETE CASCADE
 );
+
 INSERT INTO movies (name, genre, description,  release_date)
 VALUES ('Example Movie3', 'Drama', 'An example description3', '2024-11-28');
 

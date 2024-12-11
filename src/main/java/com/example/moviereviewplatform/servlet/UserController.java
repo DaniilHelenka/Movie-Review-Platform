@@ -22,31 +22,31 @@ public class UserController extends HttpServlet {
     private final ImageService imageService = ImageService.getInstance();
     private final WatchlistService watchlistService = WatchlistService.getInstance();
 
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/user.jsp").forward(req, resp);
-
-        // Получение ID пользователя из сессии или параметра
-        //Integer userId = (Integer) req.getSession().getAttribute("user_id");
+        // Получаем сессию и пользователя из неё
         var session = req.getSession();
         var user = (UserDto) session.getAttribute(USER);
 
-
-
-
         if (user != null) {
             Integer userId = user.getId();
+
+            // Устанавливаем атрибуты для изображения и информации о пользователе
             req.setAttribute("image", imageService.get(user.getImage()));
             req.setAttribute("user", user);
             req.setAttribute("userId", userId);
+
+            // Получаем списки watching и watched
             var watchingList = watchlistService.getUserWatchlistByType(userId, "watching");
             var watchedList = watchlistService.getUserWatchlistByType(userId, "watched");
+
+            // Устанавливаем атрибуты для списка
             req.setAttribute("watchingList", watchingList);
             req.setAttribute("watchedList", watchedList);
 
-            req.getRequestDispatcher("/MovieReviewPlatform_war_exploded/user.jsp");
-            resp.getWriter().write("User ID: " + userId);
+            // Перенаправляем на страницу user.jsp
+            req.getRequestDispatcher("/WEB-INF/jsp/user.jsp").forward(req, resp);
         } else {
+            // Если пользователь не найден в сессии, редиректим на страницу регистрации
             resp.sendRedirect("/MovieReviewPlatform_war_exploded/registration");
         }
     }

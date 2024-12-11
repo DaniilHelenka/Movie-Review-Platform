@@ -8,29 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WatchlistDao {
+
     private static final WatchlistDao INSTANCE = new WatchlistDao();
 
-    private static final String ADD_TO_WATCHLIST = """
-        INSERT INTO watchlist (user_id, movie_id, list_type) VALUES (?, ?, ?)
-        ON CONFLICT (user_id, movie_id, list_type) DO NOTHING
+    private static final String INSERT_WATCHLIST = """
+        INSERT INTO watchlist (user_id, movie_id, list_type)
+        VALUES (?, ?, ?)
+        ON CONFLICT DO NOTHING
     """;
 
-    private static final String REMOVE_FROM_WATCHLIST = """
+    private static final String DELETE_WATCHLIST = """
         DELETE FROM watchlist WHERE user_id = ? AND movie_id = ? AND list_type = ?
     """;
 
-    private static final String FIND_BY_USER_AND_LIST_TYPE = """
-        SELECT w.id, w.user_id, w.movie_id, w.list_type, m.name AS movie_name
+    private static final String FIND_BY_USER = """
+        SELECT w.id, w.movie_id, w.list_type, m.name AS movie_name
         FROM watchlist w
         JOIN movies m ON w.movie_id = m.id
-        WHERE w.user_id = ? AND w.list_type = ?
+        WHERE w.user_id = ?
     """;
 
     private WatchlistDao() {}
 
     public void addToWatchlist(int userId, int movieId, String listType) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(ADD_TO_WATCHLIST)) {
+             var preparedStatement = connection.prepareStatement(INSERT_WATCHLIST)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, movieId);
             preparedStatement.setString(3, listType);
@@ -42,7 +44,7 @@ public class WatchlistDao {
 
     public void removeFromWatchlist(int userId, int movieId, String listType) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(REMOVE_FROM_WATCHLIST)) {
+             var preparedStatement = connection.prepareStatement(DELETE_WATCHLIST)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, movieId);
             preparedStatement.setString(3, listType);
@@ -52,23 +54,21 @@ public class WatchlistDao {
         }
     }
 
-    public List<Watchlist> findByUserAndListType(int userId, String listType) {
+    public List<Watchlist> findByUser(int userId) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(FIND_BY_USER_AND_LIST_TYPE)) {
+             var preparedStatement = connection.prepareStatement(FIND_BY_USER)) {
             preparedStatement.setInt(1, userId);
-            preparedStatement.setString(2, listType);
             var resultSet = preparedStatement.executeQuery();
-            List<Watchlist> watchlist = new ArrayList<>();
+            List<Watchlist> watchlists = new ArrayList<>();
             while (resultSet.next()) {
-                watchlist.add(new Watchlist(
+                watchlists.add(new Watchlist(
                         resultSet.getInt("id"),
-                        resultSet.getInt("user_id"),
+                        userId,
                         resultSet.getInt("movie_id"),
-                        resultSet.getString("list_type"),
-                        resultSet.getString("movie_name")
+                        resultSet.getString("list_type")
                 ));
             }
-            return watchlist;
+            return watchlists;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

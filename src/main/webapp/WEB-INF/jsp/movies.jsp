@@ -56,6 +56,19 @@
             border-top: 1px solid #ddd;
             margin: 15px 0;
         }
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +86,17 @@
         <b>Жанр:</b> <%= movie.getGenre() %> <br>
         <b>Описание:</b> <%= movie.getDescription() %> <br>
         <b>Постер:</b> <img src="<%= movie.getPoster_url() %>" alt="постер фильма" width="200px" /><br>
+
+        <%if (user != null) { %>
+        <!-- Форма для добавления в watchlist -->
+        <form action="<%= request.getContextPath() + "/watchlist/add" %>" method="post">
+            <input type="hidden" name="movie_id" value="<%= movie.getId() %>" />
+            <input type="hidden" name="list_type" value="watching" />
+            <button type="submit">Добавить в Watchlist</button>
+        </form>
+        <% } else { %>
+        <p>Авторизуйтесь, чтобы добавить фильм в Watchlist.</p>
+        <% } %>
     </li>
     <hr>
     <%

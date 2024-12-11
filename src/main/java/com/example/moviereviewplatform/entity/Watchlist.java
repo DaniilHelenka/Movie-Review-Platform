@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Watchlist {
-    private  int id;
-    private  int userId;
-    private  int movieId;
-    private  String listType;
-    private  String movieName;
+    private int id;
+    private int userId;
+    private int movieId;
+    private String listType;
 
 }
