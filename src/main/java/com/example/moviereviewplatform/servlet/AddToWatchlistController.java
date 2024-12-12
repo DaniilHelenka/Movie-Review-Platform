@@ -1,5 +1,6 @@
 package com.example.moviereviewplatform.servlet;
 
+import com.example.moviereviewplatform.dto.UserDto;
 import com.example.moviereviewplatform.dto.WatchlistDto;
 import com.example.moviereviewplatform.service.WatchlistService;
 import jakarta.servlet.ServletException;
@@ -15,11 +16,13 @@ import java.util.List;
 public class AddToWatchlistController extends HttpServlet {
     private final WatchlistService watchlistService = WatchlistService.getInstance();
 
+    private static final String USER = "user";
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Получаем ID пользователя из сессии
-        Integer userId = (Integer) req.getSession().getAttribute("user_id");
-        userId = 1;
+        var session = req.getSession();
+        var user = (UserDto) session.getAttribute(USER);
+        Integer userId = user.getId();
         // Проверяем, авторизован ли пользователь
         if (userId == null) {
             resp.sendRedirect("/login"); // Перенаправляем на страницу входа, если пользователь не авторизован

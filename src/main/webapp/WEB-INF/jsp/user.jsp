@@ -1,6 +1,7 @@
 <%@ page import="com.example.moviereviewplatform.dto.UserDto" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.moviereviewplatform.dto.WatchlistDto" %>
+<%@ page import="com.example.moviereviewplatform.entity.Role" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,11 +122,22 @@
         <p><strong>Имя:</strong> <%= user.getName() %></p>
         <p><strong>Email:</strong> <%= user.getEmail() %></p>
     </div>
+
     <div class="profile-buttons">
         <form action="<%= request.getContextPath() %>/logout" method="post" style="display:inline;">
             <button type="submit">Выйти</button>
         </form>
         <a href="<%= request.getContextPath() %>/movies">Все фильмы</a>
+
+        <%
+            // Проверяем роль пользователя
+            if (user.getRole() == Role.ADMIN) {
+        %>
+        <a href="<%= request.getContextPath() %>/movies/add">Добавить фильм</a>
+        <a href="<%= request.getContextPath() %>/movies/delete">Удалить фильм</a>
+        <%
+            }
+        %>
     </div>
 
     <div class="watchlist-container">

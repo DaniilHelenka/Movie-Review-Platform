@@ -17,7 +17,7 @@ public class SessionController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var session = req.getSession();
+        var session = req.getSession(false);
         var user = (UserDto) session.getAttribute(USER);
         if (user == null) {
             user = UserDto.builder()

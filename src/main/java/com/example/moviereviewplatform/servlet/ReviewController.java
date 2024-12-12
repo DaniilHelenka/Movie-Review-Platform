@@ -65,8 +65,8 @@ public class ReviewController extends HttpServlet {
         var session = req.getSession();
         var user = (UserDto) session.getAttribute(USER);
         //userService.getId((Integer) req.getSession().getAttribute("user_id"));
-        Integer user_id =2;
-        //Integer user_id = Integer.valueOf(req.getParameter("user_id"));
+        Integer user_id = user.getId();
+       // Integer user_id = Integer.valueOf(req.getParameter("user_id"));
         Integer movie_id = Integer.parseInt(req.getParameter("movie_id"));
         Integer rating = Integer.parseInt(req.getParameter("rating"));
         String comments = req.getParameter("comments");
