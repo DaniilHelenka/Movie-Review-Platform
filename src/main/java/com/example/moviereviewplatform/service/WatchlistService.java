@@ -16,9 +16,15 @@ public class WatchlistService {
         watchlistDao.addToWatchlist(userId, movieId, listType);
     }
 
-    public void removeMovieFromWatchlist(int userId, int movieId, String listType) {
-        watchlistDao.removeFromWatchlist(userId, movieId, listType);
+    public boolean removeMovieFromWatchlist(int userId, int movieId, String listType) {
+        WatchlistDto watchlist = watchlistDao.findByUserAndMovieAndType(userId, movieId, listType);
+        if (watchlist == null) {
+            throw new IllegalArgumentException("Movie not found in the specified list");
+        }
+        return watchlistDao.delete(userId, movieId, listType);
     }
+
+
     public List<WatchlistDto> getUserWatchlistByType(int userId, String listType) {
         List<Watchlist> watchlists = watchlistDao.findByUser(userId);
 

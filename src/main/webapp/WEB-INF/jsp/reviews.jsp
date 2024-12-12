@@ -13,15 +13,17 @@
     <title>Отзывы</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f6f5f3;
+            color: #333;
         }
         h1, h2 {
             text-align: center;
-            color: #333;
+            color: #2d3436;
             margin-top: 20px;
+            font-size: 2em;
         }
         .movie-info {
             text-align: center;
@@ -29,43 +31,49 @@
         }
         .movie-info img {
             width: 200px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .movie-info h2 {
             margin: 10px 0;
-            color: #4caf50;
+            color: #0984e3;
         }
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 0 auto;
+            max-width: 900px;
         }
         li {
-            background-color: #fff;
+            background-color: #ffffff;
             margin: 20px auto;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         li strong {
-            color: #4caf50;
+            color: #0984e3;
         }
         p {
             text-align: center;
-            color: #555;
+            color: #636e72;
         }
         form {
             max-width: 600px;
             margin: 20px auto;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             font-weight: bold;
         }
         input, textarea, button {
@@ -73,47 +81,21 @@
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 5px;
+            font-size: 1em;
         }
         button {
-            background-color: #4caf50;
-            color: #fff;
+            background-color: #0984e3;
+            color: white;
             border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
             cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #45a049;
-        }
-
-        /* Новый стиль для header */
-        header {
-            background-color: #343a40;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        header nav {
-            display: flex;
-        }
-
-        header nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 18px;
-        }
-
-        header nav a:hover {
-            text-decoration: underline;
+            background-color: #74b9ff;
         }
     </style>
 </head>
@@ -122,10 +104,9 @@
 
 <h1>Отзывы о фильме</h1>
 
-
 <div class="movie-info">
-    <h2>Movie: <%= request.getAttribute("movieName") %></h2>
-    <img src="<%= request.getAttribute("poster") %>" alt="Movie Poster" style="max-width: 300px; max-height: 450px;">
+    <h2><%= request.getAttribute("movieName") %></h2>
+    <img src="<%= request.getContextPath() %>/images/<%=request.getAttribute("poster")%>" alt="Movie Poster">
 </div>
 
 <%
@@ -137,7 +118,6 @@
 <ul>
     <%
         for (ReviewDto review : reviews) {
-            // Форматирование даты и времени
             LocalDateTime createdAt = review.getCreated_at();
             Date date = java.sql.Timestamp.valueOf(createdAt);
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

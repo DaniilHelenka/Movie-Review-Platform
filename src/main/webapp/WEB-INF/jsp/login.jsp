@@ -4,154 +4,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Вход</title>
     <style>
-        /* Общие стили для страницы */
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            flex-direction: column;
+            padding: 0;
+            background-color: #f6f5f3;
+            color: #333;
         }
 
-        /* Стили для хедера */
         header {
-            background-color: #333;
-            color: #fff;
-            width: 100%;
-            padding: 20px;
-            text-align: left;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10;
+            background-color: #0984e3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
         }
 
-        header a {
-            color: #fff;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        header a:hover {
-            text-decoration: underline;
-        }
-
-        /* Стилевые настройки для контейнера формы */
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            padding-top: 80px; /* Отступ сверху, чтобы не перекрывать хедером */
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .login-form {
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 2em;
             margin-bottom: 20px;
-            color: #333;
+            color: #2d3436;
         }
 
         label {
-            font-size: 16px;
-            margin-bottom: 10px;
             display: block;
+            font-size: 1em;
             text-align: left;
-            color: #555;
+            margin-bottom: 10px;
+            color: #636e72;
         }
 
         input {
             width: 100%;
             padding: 12px;
-            margin: 8px 0;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #0984e3;
             color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 12px 20px;
             font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
             width: 100%;
+            margin-top: 10px;
         }
 
         button:hover {
-            background-color: #45a049;
-        }
-
-        a button {
-            background-color: #007BFF;
-            width: auto;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        a button:hover {
-            background-color: #0056b3;
+            background-color: #74b9ff;
         }
 
         .error {
-            color: red;
-            margin-top: 15px;
+            color: #d63031;
             font-size: 14px;
+            margin-top: 15px;
+            text-align: left;
         }
 
         .forgot-password {
             margin-top: 10px;
             font-size: 14px;
+            text-align: right;
+        }
+
+        .forgot-password a {
+            text-decoration: none;
+            color: #0984e3;
+        }
+
+        .forgot-password a:hover {
+            color: #74b9ff;
+        }
+
+        .register-button {
+            background-color: #6c5ce7;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .register-button:hover {
+            background-color: #a29bfe;
         }
     </style>
 </head>
 <body>
 
-<%@ include file="header.jsp" %>
+<header>
+    MovieReviewPlatform
+</header>
 
-<!-- Контейнер для формы логина -->
 <div class="container">
     <div class="login-form">
-        <h1>Login</h1>
+        <h1>Вход</h1>
         <form action="<%= request.getContextPath() %>/login" method="post">
-            <label for="email">Email:
-                <input type="text" name="email" id="email" value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>" required>
-            </label><br>
+            <label for="email">Email:</label>
+            <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>"
+                    required>
 
-            <label for="password">Password:
-                <input type="password" name="password" id="password" required>
-            </label><br>
+            <label for="password">Пароль:</label>
+            <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    required>
 
-            <button type="submit">Login</button>
-
-            <a href="<%= request.getContextPath() %>/registration">
-                <button type="button">Registration</button>
-            </a>
+            <button type="submit">Войти</button>
 
             <% if (request.getParameter("error") != null) { %>
             <div class="error">
-                <span>Email or password is not correct</span>
+                Неверный email или пароль.
             </div>
             <% } %>
         </form>
 
         <div class="forgot-password">
-            <a href="<%= request.getContextPath() %>/forgot-password">Forgot Password?</a>
+            <a href="<%= request.getContextPath() %>/forgot-password">Забыли пароль?</a>
         </div>
+
+        <a href="<%= request.getContextPath() %>/registration" class="register-button">Зарегистрироваться</a>
     </div>
 </div>
 

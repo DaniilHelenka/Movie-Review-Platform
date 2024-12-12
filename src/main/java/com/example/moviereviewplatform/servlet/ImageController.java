@@ -12,7 +12,7 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 import java.io.InputStream;
 
-@WebServlet("/images/*")
+//@WebServlet("/images/*")
 public class ImageController extends HttpServlet {
 
     private final ImageService imageService = ImageService.getInstance();

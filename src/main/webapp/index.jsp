@@ -7,51 +7,65 @@
     <title>MovieReviewPlatform</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: #f6f5f3; /* Светлый фон, как на другой странице */
             color: #333;
         }
-        header {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
+        .navbar {
+            background-color: #dfe6e9; /* Мягкий серый фон для навигации */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-        nav {
-            text-align: center;
-            margin: 20px 0;
-        }
-        nav a {
+        .navbar a, .navbar button {
+            color: #636e72;
             text-decoration: none;
-            color: white;
-            background-color: #4caf50;
-            padding: 10px 20px;
-            border-radius: 5px;
             margin: 0 10px;
+            background-color: #b2bec3;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
             font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        nav a:hover {
-            background-color: #45a049;
+        .navbar a:hover, .navbar button:hover {
+            background-color: #74b9ff;
+            color: #ffffff;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #2d3436;
+        }
+        .navbar form {
+            margin: 0;
+            display: inline;
         }
         main {
             text-align: center;
-            padding: 20px;
+            padding: 50px;
+            color: #636e72; /* Цвет текста для главного контента */
         }
         main h2 {
-            font-size: 1.5em;
-            color: #555;
+            font-size: 2.5em;
+            color: #2d3436; /* Заголовок с более тёмным оттенком */
+            margin-bottom: 20px;
+        }
+        main p {
+            font-size: 1.2em;
+            color: #636e72; /* Мягкий текст */
+            margin: 0 0 30px 0;
         }
         footer {
-            background-color: #333;
-            color: white;
+            background-color: #dfe6e9; /* Мягкий серый фон для подвала */
+            color: #636e72;
             text-align: center;
-            padding: 10px 0;
+            padding: 15px 0;
             position: fixed;
             bottom: 0;
             width: 100%;
@@ -63,18 +77,37 @@
     </style>
 </head>
 <body>
-<header>
-    <h1>MovieReviewPlatform</h1>
-</header>
+<!-- Навигация -->
+<div class="navbar">
+    <div>
+        <h1>MovieReviewPlatform</h1>
+    </div>
+    <div>
+        <a href="movies">All Movies</a>
+        <% Object user = session.getAttribute("user"); %>
+        <% if (user == null) { %>
+        <a href="login">Login</a>
+        <a href="registration">Registration</a>
+        <% } else { %>
+        <a href="user">Account</a>
+        <form action="/MovieReviewPlatform_war_exploded/logout" method="post" style="display: inline;">
+            <button type="submit">Logout</button>
+        </form>
+        <% } %>
+        <a href="${pageContext.request.contextPath}/top-movies">Top 10 Movies</a>
+    </div>
+</div>
+
+<!-- Контент -->
 <main>
     <h2>Добро пожаловать в MovieReviewPlatform!</h2>
     <p>Здесь вы можете найти лучшие фильмы, оставлять отзывы и делиться впечатлениями.</p>
 </main>
-<nav>
-    <a href="movies">Все фильмы</a>
-</nav>
+
+<!-- Подвал -->
 <footer>
     <p>&copy; 2024 MovieReviewPlatform. Все права защищены.</p>
 </footer>
+
 </body>
 </html>

@@ -13,7 +13,8 @@ CREATE TABLE movies (
                         name VARCHAR(255) NOT NULL,
                         genre VARCHAR(100),
                         description TEXT,
-                        release_date DATE
+                        release_date DATE,
+                        posters_url VARCHAR(124) NOT NULL
 );
 
 CREATE TABLE reviews (
@@ -36,18 +37,3 @@ CREATE TABLE watchlist (
                            CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
                            CONSTRAINT fk_movie FOREIGN KEY (movie_id) REFERENCES movies (id) ON DELETE CASCADE
 );
-
-INSERT INTO movies (name, genre, description,  release_date)
-VALUES ('Example Movie3', 'Drama', 'An example description3', '2024-11-28');
-
-CREATE TABLE posters (
-                         id SERIAL PRIMARY KEY,
-                         movie_id INT NOT NULL,
-                         poster_url VARCHAR(255) NOT NULL,
-                         FOREIGN KEY (movie_id) REFERENCES movies(id)
-);
-
-INSERT INTO posters (movie_id, poster_url)
-VALUES (1, 'http://localhost:8080/MovieReviewPlatform_war_exploded/posters/alien.jpg'),
-       (2, 'http://localhost:8080/MovieReviewPlatform_war_exploded/posters/hancock.jpg'),
-       (3, 'http://localhost:8080/MovieReviewPlatform_war_exploded/posters/legenda.jpg');

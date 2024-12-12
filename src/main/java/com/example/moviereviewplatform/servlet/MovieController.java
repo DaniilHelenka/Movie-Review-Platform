@@ -2,6 +2,7 @@ package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.dto.UserDto;
+import com.example.moviereviewplatform.service.ImageService;
 import com.example.moviereviewplatform.service.MovieService;
 import com.example.moviereviewplatform.service.RecommendationService;
 import com.example.moviereviewplatform.util.JspHelper;
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 @WebServlet("/movies")
 public class MovieController extends HttpServlet {
     private final MovieService movieService = MovieService.getInstance();
+    private final ImageService imageService = ImageService.getInstance();
     private static final String USER = "user";
 
     @Override
@@ -26,6 +28,7 @@ public class MovieController extends HttpServlet {
         var movies = movieService.findAll(); // Получаем список фильмов
         for (MovieDto movie : movies) {
             req.setAttribute("poster", movie.getPoster_url());
+            imageService.get(movie.getPoster_url());
         }
         var session = req.getSession();
         var user = (UserDto) session.getAttribute(USER);

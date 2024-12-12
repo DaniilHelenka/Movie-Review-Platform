@@ -6,40 +6,44 @@
     <title>MovieReviewPlatform</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f6f5f3;
+            color: #333;
         }
         .navbar {
-            background-color: #4caf50;
-            padding: 10px 20px;
+            background-color: #dfe6e9;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .navbar a, .navbar button {
-            color: white;
+            color: #636e72;
             text-decoration: none;
             margin: 0 10px;
-            background-color: #45a049;
+            background-color: #b2bec3;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .navbar a:hover, .navbar button:hover {
-            background-color: #3e8e41;
+            background-color: #74b9ff;
+            color: #ffffff;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #2d3436;
         }
         .navbar form {
             margin: 0;
             display: inline;
-        }
-        .navbar h1 {
-            margin: 0;
-            font-size: 1.5em;
         }
         .container {
             text-align: center;
@@ -47,7 +51,7 @@
         }
         .container h2 {
             font-size: 1.8em;
-            color: #333;
+            color: #636e72;
         }
     </style>
 </head>
@@ -55,26 +59,24 @@
 <!-- Навигация -->
 <div class="navbar">
     <div>
-        <!-- Главная кнопка для перехода на список фильмов -->
+        <h1>MovieReviewPlatform</h1>
+    </div>
+    <div>
         <a href="movies">All Movies</a>
-        <!-- Проверка, залогинен ли пользователь -->
-        <%
-            Object user = session.getAttribute("user");
-            if (user == null) {
-        %>
+        <% Object user = session.getAttribute("user"); %>
+        <% if (user == null) { %>
         <a href="login">Login</a>
         <a href="registration">Registration</a>
-        <%
-        } else {
-        %>
+        <% } else { %>
         <a href="user">Account</a>
-        <!-- Кнопка logout, как обычная кнопка в navbar -->
         <form action="/MovieReviewPlatform_war_exploded/logout" method="post" style="display: inline;">
-            <button type="submit">Logout</button>
+            <a href="#" onclick="this.closest('form').submit();"
+               style="background-color: #b2bec3; padding: 10px 20px; color: #636e72; text-decoration: none; transition: background-color 0.3s ease, color 0.3s ease; border: none; box-shadow: none;">
+                Logout
+            </a>
+
         </form>
-        <%
-            }
-        %>
+        <% } %>
         <a href="${pageContext.request.contextPath}/top-movies">Top 10 Movies</a>
     </div>
 </div>

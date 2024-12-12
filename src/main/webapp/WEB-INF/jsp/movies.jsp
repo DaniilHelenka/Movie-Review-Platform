@@ -10,64 +10,76 @@
     <title>Все фильмы</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f6f5f3;
+            color: #333;
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #2d3436;
             margin-top: 20px;
+            font-size: 2em;
         }
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 0 auto;
+            max-width: 900px;
         }
         li {
-            background-color: #fff;
+            background-color: #ffffff;
             margin: 20px auto;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         li img {
-            border-radius: 8px;
+            border-radius: 10px;
             display: block;
-            margin: 10px 0;
+            margin: 15px 0;
+            max-width: 200px;
+            height: auto;
         }
         li b {
-            color: #4caf50;
+            color: #0984e3;
         }
         li a {
             text-decoration: none;
-            color: #4caf50;
+            color: #0984e3;
+            font-weight: bold;
+            transition: color 0.3s ease;
         }
         li a:hover {
-            text-decoration: underline;
+            color: #74b9ff;
         }
         p {
             text-align: center;
-            color: #555;
+            color: #636e72;
         }
         hr {
             border: none;
-            border-top: 1px solid #ddd;
-            margin: 15px 0;
+            border-top: 1px solid #dfe6e9;
+            margin: 20px 0;
         }
         button {
-            background-color: #4caf50;
+            background-color: #0984e3;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 1em;
-            margin-top: 10px;
+            transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #74b9ff;
         }
     </style>
 </head>
@@ -85,9 +97,9 @@
         <b>Название:</b> <a href="<%= request.getContextPath() + "/review?movieId=" + movie.getId() %>"><%= movie.getName() %></a> <br>
         <b>Жанр:</b> <%= movie.getGenre() %> <br>
         <b>Описание:</b> <%= movie.getDescription() %> <br>
-        <b>Постер:</b> <img src="<%= movie.getPoster_url() %>" alt="постер фильма" width="200px" /><br>
+        <b>Постер:</b> <img src="<%= request.getContextPath() %>/images/<%=movie.getPoster_url()%>" alt="постер фильма" /><br>
 
-        <%if (user != null) { %>
+        <% if (user != null) { %>
         <!-- Форма для добавления в watchlist -->
         <form action="<%= request.getContextPath() + "/watchlist/add" %>" method="post">
             <input type="hidden" name="movie_id" value="<%= movie.getId() %>" />
