@@ -5,6 +5,8 @@ import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.util.ConnectionManager;
 import lombok.NoArgsConstructor;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +112,42 @@ public class WatchlistDao {
             return watchlists;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public Watchlist findByMovieIdAndListType(int movieId, String listType) {
+        String query = "SELECT * FROM watchlist WHERE movie_id = ? AND list_type = ?";
+        try (var connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, movieId);
+            preparedStatement.setString(2, listType);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                Watchlist watchlist = new Watchlist();
+                watchlist.setId(rs.getInt("id"));
+                watchlist.setUserId(rs.getInt("user_id"));
+                watchlist.setMovieId(rs.getInt("movie_id"));
+                watchlist.setListType(rs.getString("list_type"));
+                return watchlist;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void update(Watchlist watchlist) {
+        String query = "UPDATE watchlist SET list_type = ? WHERE id = ?";
+        try (var connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, watchlist.getListType());
+            preparedStatement.setInt(2, watchlist.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

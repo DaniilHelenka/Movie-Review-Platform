@@ -138,6 +138,11 @@
             %>
             <li>
                 <span><strong>Название:</strong> <%= item.getMovieName() %></span>
+                <form action="<%= request.getContextPath() + "/watchlist/markWatched" %>" method="post">
+                    <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
+                    <input type="hidden" name="list_type" value="watching">
+                    <button type="submit">Посмотрел</button>
+                </form>
                 <form action="<%= request.getContextPath() %>/watchlist/remove" method="post">
                     <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
                     <input type="hidden" name="list_type" value="watching">

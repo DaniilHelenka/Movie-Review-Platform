@@ -19,6 +19,7 @@ public class WatchlistMapper implements Mapper<Watchlist, WatchlistDto> {
                 .id(watchlist.getId())
                 .movieName(movieName)
                 .listType(watchlist.getListType())
+                .movieId(watchlist.getMovieId())
                 .build();
     }
 

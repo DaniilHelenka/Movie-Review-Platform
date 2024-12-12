@@ -31,10 +31,11 @@ public class RemoveFromWatchlistController extends HttpServlet {
             resp.sendRedirect("/MovieReviewPlatform_war_exploded/login"); // Перенаправляем на страницу входа, если пользователь не авторизован
             return;
         }
-
+        String movieIdParam = req.getParameter("movie_id");
+        int movieId = Integer.parseInt(movieIdParam);
         // Получаем параметры запроса (ID фильма и тип списка)
 
-        Integer movieId = Integer.valueOf(req.getParameter("movie_id"));
+
 
 
 
@@ -45,6 +46,7 @@ public class RemoveFromWatchlistController extends HttpServlet {
         try {
 
             boolean isDeleted = watchlistService.removeMovieFromWatchlist(userId, movieId, listType);
+            resp.sendRedirect("/MovieReviewPlatform_war_exploded/user");
             if (isDeleted) {
                 resp.sendRedirect("/MovieReviewPlatform_war_exploded/user"); // Перенаправляем на профиль после успешного удаления
             }

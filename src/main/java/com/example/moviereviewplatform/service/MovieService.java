@@ -1,8 +1,10 @@
 package com.example.moviereviewplatform.service;
 
 import com.example.moviereviewplatform.dao.MovieDao;
+import com.example.moviereviewplatform.dao.WatchlistDao;
 import com.example.moviereviewplatform.dto.CreateMovieDto;
 import com.example.moviereviewplatform.dto.MovieDto;
+import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.mapper.CreateMovieMapper;
 
 import java.io.IOException;
@@ -54,6 +56,19 @@ public class MovieService {
     }
     public boolean deleteMovie(Integer id) {
         return movieDao.deleteById(id);
+    }
+    public void moveToWatched(int movieId) {
+        // 1. Найти запись в Watchlist с данным movieId и типом "watching"
+        WatchlistDao watchlistDao = new WatchlistDao();
+        Watchlist watchlistItem = watchlistDao.findByMovieIdAndListType(movieId, "watching");
+
+        if (watchlistItem != null) {
+            // 2. Обновить список с "watching" на "watched"
+            watchlistItem.setListType("watched");
+            watchlistDao.update(watchlistItem); // Обновляем запись в базе
+        } else {
+            throw new IllegalArgumentException("Фильм не найден в списке 'буду смотреть'");
+        }
     }
 
     public static MovieService getInstance() {
