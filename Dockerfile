@@ -1,15 +1,14 @@
-# Используем официальный образ Tomcat
-FROM tomcat:10.1-jdk17
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Устанавливаем рабочую директорию
-WORKDIR /usr/local/tomcat/webapps/
-
-# Копируем ваш WAR-файл в папку webapps Tomcat
-COPY target/MovieReviewPlatform-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+FROM eclipse-temurin:21-jdk-jammy
+WORKDIR /usr/local/tomcat
+COPY --from=build /app/target/MovieReviewPlatform-1.0-SNAPSHOT.war ./webapps/MovieReviewPlatform-1.0-SNAPSHOT.war
 
 
-# Открываем порт 8080
+
 EXPOSE 8080
-
-ENTRYPOINT ["catalina.sh", "run"]
-# Стартовая команда уже задана в базовом образе Tomcat
+CMD ["catalina.sh", "run"]

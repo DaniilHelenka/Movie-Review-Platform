@@ -1,37 +1,44 @@
-version: "3.8"
-
 services:
+
+  db:
+    image: postgres:17
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=techtask
+      - POSTGRES_PASSWORD=techtask
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
   app:
+
+    image: app:1.0.0
+
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+
+    container_name: tomee-app
     depends_on:
       - db
-    networks:
-      - web-bridge
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
-      SPRING_DATASOURCE_USERNAME: techtask
-      SPRING_DATASOURCE_PASSWORD: techtask
-
-  db:
-    image: postgres:15
-    restart: always
+      - DATABASE_URL=jdbc:postgresql://db:5432/postgres
+      - DATABASE_USER=techtask
+      - DATABASE_PASSWORD=techtask
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: db
-      POSTGRES_USER: techtask
-      POSTGRES_PASSWORD: techtask
+      - "8080:8080"
     networks:
-      - web-bridge
+      - app-network
 
 networks:
-  web-bridge:
+  app-network:
+    driver: bridge
 
 volumes:
-  postgres-data:
+  postgres_data:
+    driver: local
