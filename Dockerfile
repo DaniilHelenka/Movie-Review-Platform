@@ -4,7 +4,7 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jdk-jammy
+FROM tomcat:10.1-jdk17
 WORKDIR /usr/local/tomcat
 COPY --from=build /app/target/MovieReviewPlatform-1.0-SNAPSHOT.war ./webapps/MovieReviewPlatform-1.0-SNAPSHOT.war
 
