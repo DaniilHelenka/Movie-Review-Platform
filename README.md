@@ -159,3 +159,23 @@
 **День 18-20:**  15.12 - 16.12
 
 Финальные доработки
+
+
+## Запуск приложения
+- Склонировать проект
+
+`git clone https://github.com/DaniilHelenka/Movie-Review-Platform.git`
+ 
+- Команда для перехода в директорию проекта
+
+`cd Movie-Review-Platform`
+
+
+
+- Запустить через Docker
+
+``docker-compose up --build``
+
+
+
+`Перейти в браузере на http://localhost:8080/MovieReviewPlatform-1.0-SNAPSHOT`
