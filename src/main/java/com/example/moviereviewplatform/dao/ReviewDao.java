@@ -5,7 +5,9 @@ import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Reviews;
 import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.util.ConnectionManager;
+import com.example.moviereviewplatform.util.HibernateUtil;
 import lombok.NoArgsConstructor;
+import org.hibernate.SessionFactory;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -13,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
-public class ReviewDao implements Dao<Integer, Reviews> {
-    private static final ReviewDao INSTANCE = new ReviewDao();
+
+public class ReviewDao extends AbstractHibernateDao<Integer, Reviews> {
+    private static final ReviewDao INSTANCE = new ReviewDao(HibernateUtil.getSessionFactory());
     public  static final String FIND_BY_ID = """
                           SELECT *
                           FROM reviews
@@ -25,6 +27,10 @@ public class ReviewDao implements Dao<Integer, Reviews> {
     public static final String FIND_ALL_REVIEWS = "SELECT r.id, r.movie_id, r.rating, r.comments, r.created_at, u.id AS user_id " +
                                                    "FROM reviews r " +
                                                    "JOIN users u ON r.user_id = u.id";
+
+    public ReviewDao(SessionFactory sessionFactory) {
+        super(Reviews.class, sessionFactory);
+    }
 
 
     public static ReviewDao getInstance() {
@@ -65,39 +71,7 @@ public class ReviewDao implements Dao<Integer, Reviews> {
         }
     }
 
-    @Override
-    public List<Movies> getTopRatedMovies() {
-        return null;
-    }
 
-    @Override
-    public Reviews save(Reviews review) {
-
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(INSERT_REVIEW_SQL, Statement.RETURN_GENERATED_KEYS )){
-
-            // Устанавливаем параметры в PreparedStatement
-            preparedStatement.setInt(1, review.getUserId());    // user_id
-            preparedStatement.setInt(2, review.getMovieId());   // movie_id
-            preparedStatement.setInt(3, review.getRating());    // rating
-            preparedStatement.setObject(4, review.getComments()); // comment
-            preparedStatement.setObject(5, review.getCreatedAt());
-
-            // Выполняем запрос
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        review.setId(generatedKeys.getInt(1)); // Устанавливаем ID для объекта
-                    }
-                }
-            }
-            return review;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Ошибка при добавлении отзыва в базу данных", e);
-        }
-    }
 
     @Override
     public boolean deleteById(Integer id) {

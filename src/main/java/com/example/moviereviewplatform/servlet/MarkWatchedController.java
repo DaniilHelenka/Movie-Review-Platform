@@ -24,7 +24,7 @@ public class MarkWatchedController extends HttpServlet {
 
                 // Логика перемещения фильма из watching в watched
                 // Например, через сервис
-                MovieService movieService = new MovieService();
+                MovieService movieService = MovieService.getInstance();
                 movieService.moveToWatched(movieId);
 
                 // Перенаправляем пользователя обратно в личный кабинет или на страницу фильмов

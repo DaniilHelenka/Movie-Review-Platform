@@ -9,10 +9,7 @@ public interface Dao<K, T> {
 
     List<T> findAll();
     Optional<T> findById(K id);
-
-    List<Movies> getTopRatedMovies();
-
-    T save(T entity);
+    void save(T entity);
     boolean deleteById(K id);
 
 

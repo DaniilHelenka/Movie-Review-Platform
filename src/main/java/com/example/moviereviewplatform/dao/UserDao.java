@@ -4,8 +4,10 @@ import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Role;
 import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.util.ConnectionManager;
+import com.example.moviereviewplatform.util.HibernateUtil;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.hibernate.SessionFactory;
 
 import java.sql.*;
 import java.util.List;
@@ -14,9 +16,12 @@ import java.util.Optional;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static lombok.AccessLevel.PRIVATE;
 
-@NoArgsConstructor(access = PRIVATE)
-public class UserDao implements Dao<Integer, User> {
-    private static final UserDao INSTANCE = new UserDao();
+public class UserDao extends AbstractHibernateDao<Integer, User> {
+    private static final UserDao INSTANCE = new UserDao(HibernateUtil.getSessionFactory());
+
+    public UserDao(SessionFactory sessionFactory) {
+        super(User.class, sessionFactory);
+    }
 
     private static final String GET_BY_EMAIL_AND_PASSWORD_SQL =
             "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -28,7 +33,7 @@ public class UserDao implements Dao<Integer, User> {
             "INSERT INTO users(name, email, password, role, image) values" +
             "(?, ?, ? ,?, ?)";
 
-    @Override
+   /* @Override
     @SneakyThrows
     public User save(User entity) {
         try (var connection = ConnectionManager.get();
@@ -50,7 +55,7 @@ public class UserDao implements Dao<Integer, User> {
             throw new RuntimeException(e);
         }
         return entity;
-    }
+    }*/
 
     @Override
     public boolean deleteById(Integer id) {
@@ -96,12 +101,6 @@ public class UserDao implements Dao<Integer, User> {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public List<Movies> getTopRatedMovies() {
-        return null;
-    }
-
     private User buildEntity(ResultSet resultSet) throws java.sql.SQLException {
         return User.builder()
                 .id(resultSet.getObject("id", Integer.class))

@@ -6,6 +6,7 @@ import com.example.moviereviewplatform.dto.CreateMovieDto;
 import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.mapper.CreateMovieMapper;
+import com.example.moviereviewplatform.util.HibernateUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,13 +18,19 @@ public class MovieService {
 
     private static final MovieService INSTANCE = new MovieService();
 
-    private final MovieDao movieDao = MovieDao.getInstance();
-    private final CreateMovieMapper createMovieMapper = CreateMovieMapper.getInstance();
-    private final  ImageService imageService = ImageService.getInstance();
-    public MovieService() {
+    private final MovieDao movieDao;
+    private final CreateMovieMapper createMovieMapper;
+
+    private MovieService() {
+        this.movieDao = MovieDao.getInstance();
+        this.createMovieMapper = CreateMovieMapper.getInstance();
     }
 
-    public List<MovieDto> findAll(){
+    public static MovieService getInstance() {
+        return INSTANCE;
+    }
+
+    public List<MovieDto> findAll() {
         return movieDao.findAll().stream()
                 .map(movies -> new MovieDto(
                         movies.getId(),
@@ -35,6 +42,7 @@ public class MovieService {
                 ))
                 .collect(toList());
     }
+
     public Optional<MovieDto> findById(Integer id) {
         return movieDao.findById(id)
                 .map(movie -> new MovieDto(
@@ -47,13 +55,11 @@ public class MovieService {
                 ));
     }
 
-    public void addMovie(CreateMovieDto movieDto) throws IOException {
-
-
+    public void addMovie(CreateMovieDto movieDto) {
         var movieEntity = createMovieMapper.mapFrom(movieDto);
-        imageService.upload(movieEntity.getPoster_url(), movieDto.getPoster_url().getInputStream());
         movieDao.save(movieEntity);
     }
+
     public boolean deleteMovie(Integer id) {
         return movieDao.deleteById(id);
     }
@@ -69,9 +75,5 @@ public class MovieService {
         } else {
             throw new IllegalArgumentException("Фильм не найден в списке 'буду смотреть'");
         }
-    }
-
-    public static MovieService getInstance() {
-        return INSTANCE;
     }
 }

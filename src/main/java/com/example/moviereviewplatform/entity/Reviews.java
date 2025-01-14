@@ -1,5 +1,6 @@
 package com.example.moviereviewplatform.entity;
 
+import com.example.moviereviewplatform.util.LocalDateTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import javax.persistence.Convert;
 @Entity
 @Table(name = "reviews")
 @Builder
@@ -29,89 +30,7 @@ public class Reviews {
     @Column(columnDefinition = "TEXT")
     private String comments;
     @Column(name = "created_at", nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime createdAt;
 
-    public Reviews(int id, int movieId, int userId, int rating, String comments, LocalDateTime createdAt) {
-        this.id = id;
-        this.movieId = movieId;
-        this.userId = userId;
-        this.rating = rating;
-        this.comments = comments;
-        this.createdAt = createdAt;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Integer getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reviews reviews = (Reviews) o;
-        return id == reviews.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Reviews{" +
-               "id=" + id +
-               ", movieId=" + movieId +
-               ", userId=" + userId +
-               ", rating=" + rating +
-               ", comments='" + comments + '\'' +
-               ", createdAt=" + createdAt +
-               '}';
-    }
 }

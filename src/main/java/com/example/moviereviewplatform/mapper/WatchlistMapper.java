@@ -6,7 +6,7 @@ import com.example.moviereviewplatform.service.MovieService;
 
 public class WatchlistMapper implements Mapper<Watchlist, WatchlistDto> {
     private static final WatchlistMapper INSTANCE = new WatchlistMapper();
-    private final MovieService movieService = new MovieService();
+    private final MovieService movieService = MovieService.getInstance();
 
     @Override
     public WatchlistDto mapFrom(Watchlist watchlist) {
