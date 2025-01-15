@@ -8,7 +8,6 @@ import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 public class UserMapper implements Mapper<User, UserDto> {
-
     private static final UserMapper INSTANCE = new UserMapper();
 
     @Override

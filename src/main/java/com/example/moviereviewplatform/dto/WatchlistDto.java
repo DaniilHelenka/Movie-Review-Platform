@@ -7,8 +7,6 @@ import lombok.Value;
 
 @Value
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor(force = true)
 public class WatchlistDto {
     Integer id;
     String movieName;

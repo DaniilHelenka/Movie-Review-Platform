@@ -36,7 +36,7 @@ public class ReviewController extends HttpServlet {
         try {
             int movieId = Integer.parseInt(movieIdParam);
             // Получаем все отзывы для фильма
-            List<ReviewDto> reviews = reviewService.findAll(movieId);
+            List<ReviewDto> reviews = reviewService.findAllByMovieId(movieId);
 
             Optional<MovieDto> movieOptional = movieService.findById(movieId);
             if (movieOptional.isEmpty()) {
@@ -72,7 +72,7 @@ public class ReviewController extends HttpServlet {
         String comments = req.getParameter("comments");
         LocalDateTime created_at = LocalDateTime.now();
 
-        reviewService.addReview(user_id, movie_id, rating, comments, created_at);
+        reviewService.addReview(user_id, movie_id, rating, comments);
         resp.sendRedirect("/MovieReviewPlatform_war_exploded/review?movieId=" + movie_id);
     }
 

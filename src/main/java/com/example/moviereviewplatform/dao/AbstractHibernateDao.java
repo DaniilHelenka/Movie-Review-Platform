@@ -18,7 +18,7 @@ public abstract class AbstractHibernateDao<K, T> implements Dao<K, T> {
         this.sessionFactory = sessionFactory;
     }
 
-    protected Session getSession() {
+    public Session getSession() {
         return sessionFactory.openSession();
     }
 

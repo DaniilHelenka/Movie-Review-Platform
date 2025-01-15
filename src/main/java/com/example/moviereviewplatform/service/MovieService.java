@@ -19,11 +19,13 @@ public class MovieService {
     private static final MovieService INSTANCE = new MovieService();
 
     private final MovieDao movieDao;
+    private final WatchlistDao watchlistDao;
     private final CreateMovieMapper createMovieMapper;
 
     private MovieService() {
         this.movieDao = MovieDao.getInstance();
         this.createMovieMapper = CreateMovieMapper.getInstance();
+        this.watchlistDao = WatchlistDao.getInstance();
     }
 
     public static MovieService getInstance() {
@@ -42,7 +44,6 @@ public class MovieService {
                 ))
                 .collect(toList());
     }
-
     public Optional<MovieDto> findById(Integer id) {
         return movieDao.findById(id)
                 .map(movie -> new MovieDto(
@@ -54,7 +55,6 @@ public class MovieService {
                         movie.getRelease_date()
                 ));
     }
-
     public void addMovie(CreateMovieDto movieDto) {
         var movieEntity = createMovieMapper.mapFrom(movieDto);
         movieDao.save(movieEntity);
@@ -65,7 +65,7 @@ public class MovieService {
     }
     public void moveToWatched(int movieId) {
         // 1. Найти запись в Watchlist с данным movieId и типом "watching"
-        WatchlistDao watchlistDao = new WatchlistDao();
+        WatchlistDao watchlistDao = new WatchlistDao(HibernateUtil.getSessionFactory());
         Watchlist watchlistItem = watchlistDao.findByMovieIdAndListType(movieId, "watching");
 
         if (watchlistItem != null) {

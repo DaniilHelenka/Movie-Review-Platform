@@ -20,10 +20,11 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JoinColumn(name = "movie_id", nullable = false)
-    private Integer movieId;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movies movie;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
     @Column(nullable = false)
     private Integer rating;
@@ -32,5 +33,6 @@ public class Reviews {
     @Column(name = "created_at", nullable = false, updatable = false)
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime createdAt;
+
 
 }

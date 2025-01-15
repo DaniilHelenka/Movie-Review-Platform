@@ -28,24 +28,24 @@ public class UserService {
 
     private UserService() {
         this.createUserValidator = CreateUserValidator.getInstance();
-        this.userDao = new UserDao(HibernateUtil.getSessionFactory());
+        this.userDao = UserDao.getInstance();
         this.createUserMapper = CreateUserMapper.getInstance();
         this.imageService = ImageService.getInstance();
         this.userMapper = UserMapper.getInstance();
     }
 
-
-
     public Optional<UserDto> login(String email, String password) {
         return userDao.findByEmailAndPassword(email, password)
                 .map(userMapper::mapFrom);
     }
-    public Optional<User> getUserById(Integer user_id) {
-        return userDao.findById(user_id);
+
+    public Optional<UserDto> getUserById(Integer userId) {
+        return userDao.findById(userId)
+                .map(userMapper::mapFrom);
     }
 
     @SneakyThrows
-    public Integer create(CreateUserDto userDto){
+    public Integer create(CreateUserDto userDto) {
         var validationResult = createUserValidator.isValid(userDto);
         if (!validationResult.isValid()) {
             throw new ValidationException(validationResult.getErrors());
@@ -56,10 +56,7 @@ public class UserService {
         return userEntity.getId();
     }
 
-
     public static UserService getInstance() {
         return INSTANCE;
     }
-
-
 }

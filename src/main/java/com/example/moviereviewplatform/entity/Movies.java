@@ -1,15 +1,12 @@
 package com.example.moviereviewplatform.entity;
 
-import jakarta.servlet.http.Part;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -33,4 +30,9 @@ public class Movies {
 
     private LocalDate release_date;
 
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)  // Связь с Watchlist
+    private List<Watchlist> watchlist;  // Список всех записей в Watchlist для этого фильма
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    private List<Reviews> reviews;
 }
