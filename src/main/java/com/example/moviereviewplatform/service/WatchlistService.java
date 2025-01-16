@@ -1,7 +1,7 @@
 package com.example.moviereviewplatform.service;
 
-import com.example.moviereviewplatform.dao.MovieDao;
-import com.example.moviereviewplatform.dao.WatchlistDao;
+import com.example.moviereviewplatform.dao.MovieDaoImpl;
+import com.example.moviereviewplatform.dao.WatchlistDaoImpl;
 import com.example.moviereviewplatform.dto.WatchlistDto;
 import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Watchlist;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 public class WatchlistService {
 
     private static final WatchlistService INSTANCE = new WatchlistService();
-    private final MovieDao movieDao;
-    private final WatchlistDao watchlistDao;
+    private final MovieDaoImpl movieDao;
+    private final WatchlistDaoImpl watchlistDao;
 
     private WatchlistService() {
-    this.movieDao = MovieDao.getInstance();
-    this.watchlistDao = WatchlistDao.getInstance();
+    this.movieDao = MovieDaoImpl.getInstance();
+    this.watchlistDao = WatchlistDaoImpl.getInstance();
     }
 
 

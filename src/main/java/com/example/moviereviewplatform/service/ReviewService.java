@@ -1,29 +1,25 @@
 package com.example.moviereviewplatform.service;
 
-import com.example.moviereviewplatform.dao.MovieDao;
-import com.example.moviereviewplatform.dao.ReviewDao;
-import com.example.moviereviewplatform.dto.MovieDto;
+import com.example.moviereviewplatform.dao.MovieDaoImpl;
+import com.example.moviereviewplatform.dao.ReviewDaoImpl;
 import com.example.moviereviewplatform.dto.ReviewDto;
 import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Reviews;
-import com.example.moviereviewplatform.util.HibernateUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 public class ReviewService {
     private static final ReviewService INSTANCE = new ReviewService();
 
-    private final ReviewDao reviewDao;
-    private final MovieDao movieDao;
+    private final ReviewDaoImpl reviewDao;
+    private final MovieDaoImpl movieDao;
 
     private ReviewService() {
-        this.reviewDao = ReviewDao.getInstance();
-        this.movieDao = MovieDao.getInstance();
+        this.reviewDao = ReviewDaoImpl.getInstance();
+        this.movieDao = MovieDaoImpl.getInstance();
     }
 
     public void addReview(Integer userId, Integer movieId, Integer rating, String comments) {

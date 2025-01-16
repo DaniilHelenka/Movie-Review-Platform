@@ -21,8 +21,6 @@ public abstract class AbstractHibernateDao<K, T> implements Dao<K, T> {
     public Session getSession() {
         return sessionFactory.openSession();
     }
-
-    @Override
     public void save(T entity) {
 
         Transaction transaction = null;
@@ -35,8 +33,6 @@ public abstract class AbstractHibernateDao<K, T> implements Dao<K, T> {
             throw new RuntimeException("Ошибка при сохранении объекта", e);
         }
     }
-
-    @Override
     public List<T> findAll() {
         try (Session session = getSession()) {
             return session.createQuery("FROM " + entityClass.getName(), entityClass).getResultList();
@@ -44,8 +40,6 @@ public abstract class AbstractHibernateDao<K, T> implements Dao<K, T> {
             throw new RuntimeException("Ошибка при выполнении запроса findAll для " + entityClass.getName(), e);
         }
     }
-
-    @Override
     public Optional<T> findById(K id) {
         try (Session session = getSession()) {
             T entity = session.get(entityClass, (Serializable) id);
@@ -54,8 +48,6 @@ public abstract class AbstractHibernateDao<K, T> implements Dao<K, T> {
             throw new RuntimeException("Ошибка при поиске объекта по id: " + id, e);
         }
     }
-
-    @Override
     public boolean deleteById(K id) {
         Transaction transaction = null;
         try (Session session = getSession()) {

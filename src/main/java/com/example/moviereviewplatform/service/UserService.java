@@ -1,34 +1,28 @@
 package com.example.moviereviewplatform.service;
 
-import com.example.moviereviewplatform.dao.UserDao;
+import com.example.moviereviewplatform.dao.UserDaoImpl;
 import com.example.moviereviewplatform.dto.CreateUserDto;
 import com.example.moviereviewplatform.dto.UserDto;
-import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.exception.ValidationException;
 import com.example.moviereviewplatform.mapper.CreateUserMapper;
 import com.example.moviereviewplatform.mapper.UserMapper;
-import com.example.moviereviewplatform.util.HibernateUtil;
 import com.example.moviereviewplatform.validator.CreateUserValidator;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.hibernate.SessionFactory;
 
 
 import java.util.Optional;
 
-import static lombok.AccessLevel.PRIVATE;
-
 public class UserService {
     private static final UserService INSTANCE = new UserService();
     private final CreateUserValidator createUserValidator;
-    private final UserDao userDao;
+    private final UserDaoImpl userDao;
     private final CreateUserMapper createUserMapper;
     private final ImageService imageService;
     private final UserMapper userMapper;
 
     private UserService() {
         this.createUserValidator = CreateUserValidator.getInstance();
-        this.userDao = UserDao.getInstance();
+        this.userDao = UserDaoImpl.getInstance();
         this.createUserMapper = CreateUserMapper.getInstance();
         this.imageService = ImageService.getInstance();
         this.userMapper = UserMapper.getInstance();

@@ -4,13 +4,26 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
-     <property name="connection.username">techtask</property>
-     <property name="connection.password">techtask</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+    <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+    <property name="connection.username">techtask</property>
+    <property name="connection.password">techtask</property>
+
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgresPlusDialect</property>
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
+
+
+
+    <property name="hibernate.hikari.leakDetectionThreshold">2000</property>
+    <property name="hibernate.hikari.connectionTimeout">30000</property>
+    <property name="hibernate.hikari.minimumIdle">5</property>
+    <property name="hibernate.hikari.maximumPoolSize">10</property>
+    <property name="hibernate.hikari.idleTimeout">30000</property>
+    <property name="hibernate.hikari.dataSourceClassName">org.postgresql.ds.PGSimpleDataSource</property>
+    <property name="hibernate.hikari.poolName">HibernateHikariCP</property>
+
+
 
     <mapping class="com.example.moviereviewplatform.entity.Movies"/>
     <mapping class="com.example.moviereviewplatform.entity.Reviews"/>
