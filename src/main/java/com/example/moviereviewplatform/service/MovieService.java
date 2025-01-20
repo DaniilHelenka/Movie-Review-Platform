@@ -7,6 +7,7 @@ import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.mapper.CreateMovieMapper;
 import com.example.moviereviewplatform.util.HibernateUtil;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +19,11 @@ public class MovieService {
     private static final MovieService INSTANCE = new MovieService();
 
     private final MovieDaoImpl movieDaoImpl;
-    private final WatchlistDaoImpl watchlistDao;
     private final CreateMovieMapper createMovieMapper;
 
     private MovieService() {
         this.movieDaoImpl = MovieDaoImpl.getInstance();
         this.createMovieMapper = CreateMovieMapper.getInstance();
-        this.watchlistDao = WatchlistDaoImpl.getInstance();
     }
 
     public static MovieService getInstance() {

@@ -7,13 +7,13 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="com.zaxxer.hikari" level="INFO" additivity="false">
-            <AppenderRef ref="Console"/>
+        <Logger name="com.zaxxer.hikari" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console" />
         </Logger>
         <Logger name="org.hibernate" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

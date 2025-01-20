@@ -6,6 +6,7 @@ import com.example.moviereviewplatform.dto.WatchlistDto;
 import com.example.moviereviewplatform.entity.Movies;
 import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.mapper.WatchlistMapper;
+import com.example.moviereviewplatform.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
@@ -42,7 +43,7 @@ public class WatchlistService {
                 .listType(listType)
                 .build();
 
-        try (Session session = watchlistDao.getSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.save(watchlist);  // Сохраняем watchlist
             transaction.commit();

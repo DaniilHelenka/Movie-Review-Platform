@@ -1,5 +1,6 @@
 package com.example.moviereviewplatform.dao;
 
+import com.example.moviereviewplatform.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,16 +12,15 @@ import java.util.Optional;
 public abstract class AbstractHibernateDao<K, T> implements Dao<K, T> {
 
     private final Class<T> entityClass;
-    private final SessionFactory sessionFactory;
 
     protected AbstractHibernateDao(Class<T> entityClass, SessionFactory sessionFactory) {
         this.entityClass = entityClass;
-        this.sessionFactory = sessionFactory;
     }
 
-    public Session getSession() {
-        return sessionFactory.openSession();
+    protected Session getSession() {
+        return HibernateUtil.getSessionFactory().openSession();
     }
+
     public void save(T entity) {
 
         Transaction transaction = null;
