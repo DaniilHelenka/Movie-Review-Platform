@@ -81,6 +81,30 @@
         button:hover {
             background-color: #74b9ff;
         }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            display: inline-block;
+            margin: 0 5px;
+            padding: 10px 15px;
+            background-color: #0984e3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .pagination a:hover {
+            background-color: #74b9ff;
+        }
+        .pagination span {
+            margin: 0 5px;
+            padding: 10px 15px;
+            background-color: #dfe6e9;
+            color: #636e72;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -120,5 +144,31 @@
         }
     %>
 </ul>
+
+<!-- Пагинация -->
+<div class="pagination">
+    <%
+        int currentPage = (int) request.getAttribute("currentPage");
+        int totalPages = (int) request.getAttribute("totalPages");
+        int pageSize = (int) request.getAttribute("pageSize");
+
+        if (currentPage > 1) {
+    %>
+    <a href="?page=<%= currentPage - 1 %>&size=<%= pageSize %>">Предыдущая</a>
+    <% } else { %>
+    <span>Предыдущая</span>
+    <% } %>
+
+    <% for (int i = 1; i <= totalPages; i++) { %>
+    <a href="?page=<%= i %>&size=<%= pageSize %>"><%= i %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+    <a href="?page=<%= currentPage + 1 %>&size=<%= pageSize %>">Следующая</a>
+    <% } else { %>
+    <span>Следующая</span>
+    <% } %>
+</div>
+
 </body>
 </html>

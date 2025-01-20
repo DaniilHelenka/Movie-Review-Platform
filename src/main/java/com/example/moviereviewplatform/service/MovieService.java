@@ -7,10 +7,9 @@ import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.mapper.CreateMovieMapper;
 import com.example.moviereviewplatform.util.HibernateUtil;
-import org.hibernate.SessionFactory;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -41,6 +40,18 @@ public class MovieService {
                         movies.getRelease_date()
                 ))
                 .collect(toList());
+    }
+    public List<MovieDto> findAllPaginated(int page, int size) {
+        return movieDaoImpl.findAllPaginated(page, size).stream()
+                .map(movie -> new MovieDto(
+                        movie.getId(),
+                        movie.getName(),
+                        movie.getGenre(),
+                        movie.getDescription(),
+                        movie.getPoster_url(),
+                        movie.getRelease_date()
+                ))
+                .collect(Collectors.toList());
     }
     public Optional<MovieDto> findById(Integer id) {
         return movieDaoImpl.findById(id)

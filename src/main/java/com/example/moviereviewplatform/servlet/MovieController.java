@@ -4,7 +4,6 @@ import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.dto.UserDto;
 import com.example.moviereviewplatform.service.ImageService;
 import com.example.moviereviewplatform.service.MovieService;
-import com.example.moviereviewplatform.service.RecommendationService;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,8 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @WebServlet("/movies")
 public class MovieController extends HttpServlet {
@@ -24,27 +22,60 @@ public class MovieController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        // Установка значений по умолчанию для пагинации
+        int page = 1;
+        int size = 2;
 
-        var movies = movieService.findAll(); // Получаем список фильмов
-        for (MovieDto movie : movies) {
-            req.setAttribute("poster", movie.getPoster_url());
-            imageService.get(movie.getPoster_url());
+        // Проверка параметров запроса
+        String pageParam = req.getParameter("page");
+        String sizeParam = req.getParameter("size");
+
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                // Лог или игнорирование ошибки
+                page = 1;
+            }
         }
+
+        if (sizeParam != null && !sizeParam.isEmpty()) {
+            try {
+                size = Integer.parseInt(sizeParam);
+            } catch (NumberFormatException e) {
+                // Лог или игнорирование ошибки
+                size = 10;
+            }
+        }
+
+        // Получение фильмов с пагинацией
+        List<MovieDto> moviesPaginated = movieService.findAllPaginated(page, size);
+        req.setAttribute("movies", moviesPaginated);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("pageSize", size);
+        var movies = movieService.findAll();
+
+        int totalMovies = movies.size(); // Общее количество фильмов
+        int totalPages = (int) Math.ceil((double) totalMovies / size); // Количество страниц
+        req.setAttribute("totalPages", totalPages);
+
+        // Получение данных пользователя
         var session = req.getSession();
         var user = (UserDto) session.getAttribute(USER);
 
         if (user != null) {
-            Integer userIdObj = user.getId();
-            int userId = (int) userIdObj;
-            req.setAttribute("user_id", userId); // Передаем ID пользователя
+            req.setAttribute("user_id", user.getId());
         } else {
             req.setAttribute("user_id", null);
         }
 
-        req.setAttribute("movies", movies); // Передаем список в запрос
-        req.getRequestDispatcher((JspHelper.getPath("movies")))
-                .forward(req, resp);
+        // Обработка изображений (если необходимо)
+        for (MovieDto movie : moviesPaginated) {
+            imageService.get(movie.getPoster_url());
+        }
 
+        // Передача управления на JSP
+        req.getRequestDispatcher(JspHelper.getPath("movies"))
+                .forward(req, resp);
     }
 }
-
