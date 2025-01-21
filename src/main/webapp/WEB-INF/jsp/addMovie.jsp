@@ -1,10 +1,15 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Добавить фильм</title>
+  <title><fmt:message key="movieAdd.title" /></title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -99,24 +104,24 @@
 
 <div class="container">
   <div class="add-form">
-    <h1>Добавить фильм</h1>
+    <h1><fmt:message key="movieAdd.title" /></h1>
     <form action="<%= request.getContextPath() + "/movies/add" %>" method="POST" enctype="multipart/form-data">
-      <label for="name">Название фильма:</label>
+      <label for="name"><fmt:message key="movieAdd.nameLabel" /></label>
       <input type="text" id="name" name="name" placeholder="Название фильма" required>
 
-      <label for="genre">Жанр:</label>
+      <label for="genre"><fmt:message key="movieAdd.genreLabel" /></label>
       <input type="text" id="genre" name="genre" placeholder="Жанр" required>
 
-      <label for="description">Описание:</label>
+      <label for="description"><fmt:message key="movieAdd.descriptionLabel" /></label>
       <textarea id="description" name="description" placeholder="Описание" required></textarea>
 
-      <label for="poster_url">Изображение:</label>
+      <label for="poster_url"><fmt:message key="movieAdd.posterLabel" /></label>
       <input type="file" id="poster_url" name="poster_url" accept="image/*" required>
 
-      <label for="release_date">Дата выхода:</label>
+      <label for="release_date"><fmt:message key="movieAdd.releaseDateLabel" /></label>
       <input type="date" id="release_date" name="release_date" required>
 
-      <button type="submit">Добавить фильм</button>
+      <button type="submit"><fmt:message key="movieAdd.button" /></button>
     </form>
 
     <%-- Обработка ошибок, если они переданы через request attribute --%>

@@ -1,10 +1,15 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Удаление фильма</title>
+    <title><fmt:message key="movieDelete.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -95,11 +100,11 @@
 
 <div class="container">
     <div class="delete-form">
-        <h1>Удаление фильма</h1>
+        <h1><fmt:message key="movieDelete.title" /></h1>
         <form action="<%= request.getContextPath() %>/movies/delete" method="post">
-            <label for="id">ID фильма:</label>
+            <label for="id"><fmt:message key="movieDelete.labelId" /></label>
             <input type="number" id="id" name="id" required>
-            <button type="submit">Удалить фильм</button>
+            <button type="submit"><fmt:message key="movieDelete.button" /></button>
         </form>
 
         <%-- Обработка ошибок, если они переданы через request attribute --%>

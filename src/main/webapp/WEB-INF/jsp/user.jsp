@@ -1,14 +1,19 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.example.moviereviewplatform.dto.UserDto" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.moviereviewplatform.dto.WatchlistDto" %>
 <%@ page import="com.example.moviereviewplatform.entity.Role" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
 <!DOCTYPE html>
-<html lang="en">
+<html >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль пользователя</title>
+    <title><fmt:message key="profile.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -115,33 +120,33 @@
         UserDto user = (UserDto) session.getAttribute("user");
         if (user != null) {
     %>
-    <h1>Профиль пользователя</h1>
+    <h1><fmt:message key="profile.title" /></h1>
     <div class="profile-info">
         <img src="<%= request.getContextPath() %>/images/<%= user.getImage() %>" alt="User image">
-        <p><strong>ID:</strong> <%= user.getId() %></p>
-        <p><strong>Имя:</strong> <%= user.getName() %></p>
-        <p><strong>Email:</strong> <%= user.getEmail() %></p>
+        <p><strong><fmt:message key="profile.id" />:</strong> <%= user.getId() %></p>
+        <p><strong><fmt:message key="profile.name" />:</strong> <%= user.getName() %></p>
+        <p><strong><fmt:message key="profile.email" />:</strong> <%= user.getEmail() %></p>
     </div>
 
     <div class="profile-buttons">
         <form action="<%= request.getContextPath() %>/logout" method="post" style="display:inline;">
-            <button type="submit">Выйти</button>
+            <button type="submit"><fmt:message key="profile.logout" /></button>
         </form>
-        <a href="<%= request.getContextPath() %>/movies">Все фильмы</a>
+        <a href="<%= request.getContextPath() %>/movies"><fmt:message key="profile.allMovies" /></a>
 
         <%
             // Проверяем роль пользователя
             if (user.getRole() == Role.ADMIN) {
         %>
-        <a href="<%= request.getContextPath() %>/movies/add">Добавить фильм</a>
-        <a href="<%= request.getContextPath() %>/movies/delete">Удалить фильм</a>
+        <a href="<%= request.getContextPath() %>/movies/add"><fmt:message key="profile.addMovie" /></a>
+        <a href="<%= request.getContextPath() %>/movies/delete"><fmt:message key="profile.deleteMovie" /></a>
         <%
             }
         %>
     </div>
 
     <div class="watchlist-container">
-        <h2>Буду смотреть</h2>
+        <h2><fmt:message key="profile.watchlistTitle" /></h2>
         <ul>
             <%
                 List<WatchlistDto> watchingList = (List<WatchlistDto>) request.getAttribute("watchingList");
@@ -153,25 +158,25 @@
                 <form action="<%= request.getContextPath() + "/watchlist/markWatched" %>" method="post">
                     <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
                     <input type="hidden" name="list_type" value="watching">
-                    <button type="submit">Посмотрел</button>
+                    <button type="submit"><fmt:message key="profile.watched" /></button>
                 </form>
                 <form action="<%= request.getContextPath() %>/watchlist/remove" method="post">
                     <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
                     <input type="hidden" name="list_type" value="watching">
-                    <button type="submit">Удалить</button>
+                    <button type="submit"><fmt:message key="profile.remove" /></button>
                 </form>
             </li>
             <%
                 }
             } else {
             %>
-            <p>Список пуст.</p>
+            <p><fmt:message key="profile.emptyList" /></p>
             <%
                 }
             %>
         </ul>
 
-        <h2>Посмотрено</h2>
+        <h2><fmt:message key="profile.watchedListTitle" /></h2>
         <ul>
             <%
                 List<WatchlistDto> watchedList = (List<WatchlistDto>) request.getAttribute("watchedList");
@@ -183,21 +188,21 @@
                 <form action="<%= request.getContextPath() %>/watchlist/remove" method="post">
                     <input type="hidden" name="movie_id" value="<%= item.getMovieId() %>">
                     <input type="hidden" name="list_type" value="watched">
-                    <button type="submit">Удалить</button>
+                    <button type="submit"><fmt:message key="profile.remove" /></button>
                 </form>
             </li>
             <%
                 }
             } else {
             %>
-            <p>Список пуст.</p>
+            <p><fmt:message key="profile.emptyList" /></p>
             <%
                 }
             %>
         </ul>
     </div>
     <% } else { %>
-    <p class="error-message">Пользователь не найден. Пожалуйста, войдите в систему.</p>
+    <p class="error-message"><fmt:message key="profile.errorMessage" /></p>
     <% } %>
 </div>
 

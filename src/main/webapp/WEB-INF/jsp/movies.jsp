@@ -1,13 +1,18 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.moviereviewplatform.dto.MovieDto" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Все фильмы</title>
+    <title><fmt:message key="movies.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -109,7 +114,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h1>Все фильмы</h1>
+<h1><fmt:message key="movies.title" /></h1>
 <ul>
     <%
         // Получаем список фильмов из атрибута запроса
@@ -128,10 +133,10 @@
         <form action="<%= request.getContextPath() + "/watchlist/add" %>" method="post">
             <input type="hidden" name="movie_id" value="<%= movie.getId() %>" />
             <input type="hidden" name="list_type" value="watching" />
-            <button type="submit">Добавить в Watchlist</button>
+            <button type="submit"><fmt:message key="movies.addToWatchlist" /></button>
         </form>
         <% } else { %>
-        <p>Авторизуйтесь, чтобы добавить фильм в Watchlist.</p>
+        <p><fmt:message key="movies.loginPrompt" /></p>
         <% } %>
     </li>
     <hr>
@@ -139,7 +144,7 @@
         }
     } else {
     %>
-    <p>Фильмы не найдены.</p>
+    <p><fmt:message key="movies.noMoviesFound" /></p>
     <%
         }
     %>
@@ -154,9 +159,9 @@
 
         if (currentPage > 1) {
     %>
-    <a href="?page=<%= currentPage - 1 %>&size=<%= pageSize %>">Предыдущая</a>
+    <a href="?page=<%= currentPage - 1 %>&size=<%= pageSize %>"><fmt:message key="movies.paginationPrev" /></a>
     <% } else { %>
-    <span>Предыдущая</span>
+    <span><fmt:message key="movies.paginationPrev" /></span>
     <% } %>
 
     <% for (int i = 1; i <= totalPages; i++) { %>
@@ -164,9 +169,9 @@
     <% } %>
 
     <% if (currentPage < totalPages) { %>
-    <a href="?page=<%= currentPage + 1 %>&size=<%= pageSize %>">Следующая</a>
+    <a href="?page=<%= currentPage + 1 %>&size=<%= pageSize %>"><fmt:message key="movies.paginationNext" /></a>
     <% } else { %>
-    <span>Следующая</span>
+    <span><fmt:message key="movies.paginationNext" /></span>
     <% } %>
 </div>
 

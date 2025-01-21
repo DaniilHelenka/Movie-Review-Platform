@@ -1,12 +1,17 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.moviereviewplatform.entity.Role" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
 <!DOCTYPE html>
-<html lang="en">
+<html >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+    <title><fmt:message key="registration.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -92,12 +97,12 @@
 <body>
 
 <header>
-    MovieReviewPlatform
+    <fmt:message key="registration.header" />
 </header>
 
 <div class="container">
     <div class="registration-form">
-        <h1>Регистрация</h1>
+        <h1><fmt:message key="registration.title" /></h1>
 
         <%
             String errorMessage = (String) request.getAttribute("errorMessage");
@@ -109,19 +114,19 @@
         <% } %>
 
         <form action="<%= request.getContextPath() %>/registration" method="post" enctype="multipart/form-data">
-            <label for="imageId">Изображение профиля:</label>
+            <label for="imageId"><fmt:message key="registration.profileImage" /></label>
             <input type="file" name="image" id="imageId" accept="image/*" required>
 
-            <label for="name">Имя:</label>
+            <label for="name"><fmt:message key="registration.name" /></label>
             <input type="text" name="name" id="name" required minlength="3">
 
-            <label for="emailId">Email:</label>
+            <label for="emailId"><fmt:message key="registration.email" /></label>
             <input type="email" name="email" id="emailId" required>
 
-            <label for="passwordId">Пароль:</label>
+            <label for="passwordId"><fmt:message key="registration.password" /></label>
             <input type="password" name="password" id="passwordId" required minlength="6">
 
-            <label for="role">Роль:</label>
+            <label for="role"><fmt:message key="registration.role" /></label>
             <select name="role" id="role">
                 <%
                     Role[] roles = Role.values();
@@ -131,7 +136,7 @@
                 <% } %>
             </select>
 
-            <button type="submit">Зарегистрироваться</button>
+            <button type="submit"><fmt:message key="registration.submit" /></button>
         </form>
     </div>
 </div>

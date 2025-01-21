@@ -13,5 +13,6 @@ public class UrlPath {
     public static final String DELETEMOVIES = "/movies/delete";
     public static final String ADDMOVIES = "/movies/add";
     public static final String USERPAGE = "/user";
+    public static final String LOCATE = "/locate";
 
 }

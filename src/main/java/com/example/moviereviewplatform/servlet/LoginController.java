@@ -3,6 +3,7 @@ package com.example.moviereviewplatform.servlet;
 import com.example.moviereviewplatform.dto.UserDto;
 import com.example.moviereviewplatform.service.UserService;
 import com.example.moviereviewplatform.util.JspHelper;
+import com.example.moviereviewplatform.util.UrlPath;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet(UrlPath.LOGIN)
 public class LoginController extends HttpServlet {
     private final UserService userService = UserService.getInstance();
 

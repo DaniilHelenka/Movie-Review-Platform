@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.moviereviewplatform.dto.ReviewDto" %>
 <%@ page import="java.time.LocalDateTime" %>
@@ -5,12 +7,15 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.example.moviereviewplatform.dto.MovieDto" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Отзывы</title>
+    <title><fmt:message key="reviews.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -102,11 +107,11 @@
 <body>
 <%@ include file="header.jsp" %>
 
-<h1>Отзывы о фильме</h1>
+<h1><fmt:message key="reviews.title" /></h1>
 
 <div class="movie-info">
-    <h2><%= request.getAttribute("movieName") %></h2>
-    <img src="<%= request.getContextPath() %>/images/<%=request.getAttribute("poster")%>" alt="Movie Poster">
+    <h2><fmt:message key="reviews.movie" />: <%= request.getAttribute("movieName") %></h2>
+    <img src="<%= request.getContextPath() %>/images/<%=request.getAttribute("poster")%>" alt="<fmt:message key='reviews.poster' />">
 </div>
 
 <%
@@ -114,7 +119,7 @@
     Integer movieId = (Integer) request.getAttribute("movieId");
     if (reviews != null && !reviews.isEmpty()) {
 %>
-<h2>Отзывы:</h2>
+<h2><fmt:message key="reviews.reviews" /></h2>
 <ul>
     <%
         for (ReviewDto review : reviews) {
@@ -125,29 +130,29 @@
     %>
     <li>
         <strong>Id:</strong> <%= review.getId() %> <br>
-        <strong>Рейтинг:</strong> <%= review.getRating() %> <br>
-        <strong>Комментарий:</strong> <%= review.getComments() %> <br>
-        <strong>Дата:</strong> <%= formattedDate %> <br>
+        <strong><fmt:message key="reviews.rating" />:</strong> <%= review.getRating() %> <br>
+        <strong><fmt:message key="reviews.comment" />:</strong> <%= review.getComments() %> <br>
+        <strong><fmt:message key="reviews.date" />:</strong> <%= formattedDate %> <br>
     </li>
     <%
         }
     } else {
     %>
-    <p>Отзывов нет.</p>
+    <p><fmt:message key="reviews.noReviews" /></p>
     <% } %>
 </ul>
 
-<h2>Добавить отзыв:</h2>
+<h2><fmt:message key="reviews.addReview" />:</h2>
 <form action="${pageContext.request.contextPath}/review" method="post">
     <input type="hidden" name="movie_id" value="<%= movieId %>">
 
-    <label for="rating">Рейтинг (1-10):</label>
+    <label for="rating"><fmt:message key="reviews.rating" /></label>
     <input type="number" name="rating" id="rating" min="1" max="10" required>
 
-    <label for="comments">Комментарий:</label>
+    <label for="comments"><fmt:message key="reviews.comment" /></label>
     <textarea name="comments" id="comments" rows="4" required></textarea>
 
-    <button type="submit">Добавить отзыв</button>
+    <button type="submit"><fmt:message key="reviews.addButton" /></button>
 </form>
 </body>
 </html>

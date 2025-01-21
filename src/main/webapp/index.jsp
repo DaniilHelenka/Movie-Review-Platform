@@ -1,20 +1,24 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieReviewPlatform</title>
+    <title><fmt:message key="navbar.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f6f5f3; /* Светлый фон, как на другой странице */
+            background-color: #f6f5f3;
             color: #333;
         }
         .navbar {
-            background-color: #dfe6e9; /* Мягкий серый фон для навигации */
+            background-color: #dfe6e9;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -49,20 +53,20 @@
         main {
             text-align: center;
             padding: 50px;
-            color: #636e72; /* Цвет текста для главного контента */
+            color: #636e72;
         }
         main h2 {
             font-size: 2.5em;
-            color: #2d3436; /* Заголовок с более тёмным оттенком */
+            color: #2d3436;
             margin-bottom: 20px;
         }
         main p {
             font-size: 1.2em;
-            color: #636e72; /* Мягкий текст */
+            color: #636e72;
             margin: 0 0 30px 0;
         }
         footer {
-            background-color: #dfe6e9; /* Мягкий серый фон для подвала */
+            background-color: #dfe6e9;
             color: #636e72;
             text-align: center;
             padding: 15px 0;
@@ -80,33 +84,33 @@
 <!-- Навигация -->
 <div class="navbar">
     <div>
-        <h1>MovieReviewPlatform</h1>
+        <h1><fmt:message key="navbar.title" /></h1>
     </div>
     <div>
-        <a href="movies">All Movies</a>
+        <a href="movies" class="nav-item"><fmt:message key="navbar.allMovies" /></a>
         <% Object user = session.getAttribute("user"); %>
         <% if (user == null) { %>
-        <a href="login">Login</a>
-        <a href="registration">Registration</a>
+        <a href="login" class="nav-item"><fmt:message key="navbar.login" /></a>
+        <a href="registration" class="nav-item"><fmt:message key="navbar.registration" /></a>
         <% } else { %>
-        <a href="user">Account</a>
+        <a href="user" class="nav-item"><fmt:message key="navbar.account" /></a>
         <form action="/MovieReviewPlatform_war_exploded/logout" method="post" style="display: inline;">
-            <button type="submit">Logout</button>
+            <button type="submit" class="nav-item"><fmt:message key="navbar.logout" /></button>
         </form>
         <% } %>
-        <a href="${pageContext.request.contextPath}/top-movies">Top 10 Movies</a>
+        <a href="${pageContext.request.contextPath}/top-movies" class="nav-item"><fmt:message key="navbar.topMovies" /></a>
     </div>
 </div>
 
 <!-- Контент -->
 <main>
-    <h2>Добро пожаловать в MovieReviewPlatform!</h2>
-    <p>Здесь вы можете найти лучшие фильмы, оставлять отзывы и делиться впечатлениями.</p>
+    <h2><fmt:message key="main.welcomeTitle" /></h2>
+    <p><fmt:message key="main.description" /></p>
 </main>
 
 <!-- Подвал -->
 <footer>
-    <p>&copy; 2024 MovieReviewPlatform. Все права защищены.</p>
+    <p><fmt:message key="footer.copyRight" /></p>
 </footer>
 
 </body>

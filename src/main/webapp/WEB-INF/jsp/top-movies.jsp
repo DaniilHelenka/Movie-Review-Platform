@@ -1,12 +1,17 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.example.moviereviewplatform.entity.Movies" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
 <!DOCTYPE html>
-<html lang="en">
+<html >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Топ 10 фильмов</title>
+    <title><fmt:message key="topMovies.title" /></title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -71,7 +76,7 @@
 <body>
 <%@ include file="header.jsp" %>
 
-<h1>Топ 10 фильмов</h1>
+<h1><fmt:message key="topMovies.title" /></h1>
 <ul class="movie-list">
     <%
         List<Movies> topMovies = (List<Movies>) request.getAttribute("topMovies");
@@ -81,15 +86,15 @@
     <li class="movie-item">
         <div>
             <h3><%= movie.getName() %></h3>
-            <p><strong>Жанр:</strong> <%= movie.getGenre() %></p>
+            <p><strong><fmt:message key="topMovies.genre" />:</strong> <%= movie.getGenre() %></p>
         </div>
-        <a href="<%= request.getContextPath() + "/review?movieId=" + movie.getId() %>">Подробнее</a>
+        <a href="<%= request.getContextPath() + "/review?movieId=" + movie.getId() %>"><fmt:message key="topMovies.details" /></a>
     </li>
     <%
         }
     } else {
     %>
-    <p class="no-movies">Нет данных о фильмах.</p>
+    <p class="no-movies"><fmt:message key="topMovies.noMovies" /></p>
     <% } %>
 </ul>
 
