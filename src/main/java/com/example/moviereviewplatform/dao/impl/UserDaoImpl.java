@@ -1,13 +1,16 @@
-package com.example.moviereviewplatform.dao;
+package com.example.moviereviewplatform.dao.impl;
 
+import com.example.moviereviewplatform.dao.AbstractHibernateDao;
+import com.example.moviereviewplatform.dao.UserDao;
 import com.example.moviereviewplatform.entity.User;
 import com.example.moviereviewplatform.util.HibernateUtil;
 import lombok.SneakyThrows;
 import org.hibernate.SessionFactory;
+
 import java.util.Optional;
 
 
-public class UserDaoImpl extends AbstractHibernateDao<Integer, User> implements UserDao{
+public class UserDaoImpl extends AbstractHibernateDao<Integer, User> implements UserDao {
     private static final UserDaoImpl INSTANCE = new UserDaoImpl(HibernateUtil.getSessionFactory());
 
     public UserDaoImpl(SessionFactory sessionFactory) {

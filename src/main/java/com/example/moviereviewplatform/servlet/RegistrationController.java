@@ -3,7 +3,7 @@ package com.example.moviereviewplatform.servlet;
 import com.example.moviereviewplatform.dto.CreateUserDto;
 import com.example.moviereviewplatform.entity.Role;
 import com.example.moviereviewplatform.exception.ValidationException;
-import com.example.moviereviewplatform.service.UserService;
+import com.example.moviereviewplatform.service.impl.UserServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(value = "/registration")
 public class RegistrationController extends HttpServlet {
 
-    private final UserService userService = UserService.getInstance();
+    private final UserServiceImpl userServiceImpl = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,10 +38,8 @@ public class RegistrationController extends HttpServlet {
                 .password(req.getParameter("password"))
                 .role(req.getParameter("role"))
                 .build();
-
         try {
-
-            userService.create(userDto);
+            userServiceImpl.create(userDto);
             resp.sendRedirect("/MovieReviewPlatform_war_exploded/login");
         } catch (ValidationException exception) {
             req.setAttribute("error", exception.getErrors());

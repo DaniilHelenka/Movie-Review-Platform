@@ -1,6 +1,6 @@
 package com.example.moviereviewplatform.servlet;
 
-import com.example.moviereviewplatform.service.WatchlistService;
+import com.example.moviereviewplatform.service.impl.WatchlistServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet("/watchlist/remove")
 public class RemoveFromWatchlistController extends HttpServlet {
 
-    private final WatchlistService watchlistService = WatchlistService.getInstance();
+    private final WatchlistServiceImpl watchlistServiceImpl = WatchlistServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -40,7 +40,6 @@ public class RemoveFromWatchlistController extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Movie ID is missing");
             return;
         }
-
         int movieId;
         try {
             movieId = Integer.parseInt(movieIdParam); // Преобразуем строку в целое число
@@ -48,27 +47,21 @@ public class RemoveFromWatchlistController extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid movie ID format");
             return;
         }
-
         // Получаем параметр типа списка (например, "watching" или "watched")
         String listType = req.getParameter("list_type");
-
         // Проверка, если listType пустое
         if (listType == null || listType.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/user");
         }
-
         try {
             // Удаляем фильм из watchlist
-            boolean isDeleted = watchlistService.removeMovieFromWatchlist(userId, movieId, listType);
-
+            boolean isDeleted = watchlistServiceImpl.removeMovieFromWatchlist(userId, movieId, listType);
             // Если фильм был удален, перенаправляем пользователя на страницу профиля
             if (isDeleted) {
                 resp.sendRedirect(req.getContextPath() + "/user"); // Перенаправление на профиль
-
             } else {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Movie not found in the watchlist");
             }
-
         } catch (IllegalArgumentException e) {
             // Логируем ошибку и показываем сообщение пользователю
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

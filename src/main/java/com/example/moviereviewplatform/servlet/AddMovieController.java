@@ -1,9 +1,7 @@
 package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.dto.CreateMovieDto;
-import com.example.moviereviewplatform.dto.CreateUserDto;
-import com.example.moviereviewplatform.dto.MovieDto;
-import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.service.impl.MovieServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -11,7 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +19,7 @@ import java.time.LocalDate;
 @MultipartConfig
 public class AddMovieController extends HttpServlet {
 
-    private final MovieService movieService = MovieService.getInstance();
+    private final MovieServiceImpl movieServiceImpl = MovieServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -34,7 +31,7 @@ public class AddMovieController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        var movieDto =  CreateMovieDto.builder()
+        var movieDto = CreateMovieDto.builder()
                 .name(req.getParameter("name"))
                 .genre(req.getParameter("genre"))
                 .description(req.getParameter("description"))
@@ -42,8 +39,8 @@ public class AddMovieController extends HttpServlet {
                 .poster_url(req.getPart("poster_url"))
                 .build();
 
-        movieService.addMovie(movieDto);
+        movieServiceImpl.addMovie(movieDto);
 
-        resp.sendRedirect( "/MovieReviewPlatform_war_exploded/movies");
+        resp.sendRedirect("/MovieReviewPlatform_war_exploded/movies");
     }
 }

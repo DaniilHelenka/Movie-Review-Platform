@@ -14,7 +14,6 @@ public class ApplicationInitializer implements ServletContextListener {
         // Сохраняем в атрибут контекста
         sce.getServletContext().setAttribute("imageBaseUrl", imageBaseUrl);
     }
-
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
     }

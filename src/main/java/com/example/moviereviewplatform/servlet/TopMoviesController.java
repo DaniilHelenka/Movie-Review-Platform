@@ -1,6 +1,6 @@
 package com.example.moviereviewplatform.servlet;
 
-import com.example.moviereviewplatform.service.RecommendationService;
+import com.example.moviereviewplatform.service.impl.RecommendationServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,14 +13,12 @@ import java.io.IOException;
 @WebServlet("/top-movies")
 public class TopMoviesController extends HttpServlet {
 
-    private final RecommendationService recommendationService = RecommendationService.getInstance();
+    private final RecommendationServiceImpl recommendationServiceImpl = RecommendationServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var topMovies = recommendationService.getTopRatedMovies();
+        var topMovies = recommendationServiceImpl.getTopRatedMovies();
         req.setAttribute("topMovies", topMovies);
-        req.getRequestDispatcher((JspHelper.getPath("top-movies")))
-                .forward(req, resp);
-
+        req.getRequestDispatcher((JspHelper.getPath("top-movies"))).forward(req, resp);
     }
 }

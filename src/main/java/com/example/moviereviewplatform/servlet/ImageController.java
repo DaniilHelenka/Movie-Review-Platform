@@ -1,9 +1,7 @@
 package com.example.moviereviewplatform.servlet;
 
-import com.example.moviereviewplatform.service.ImageService;
+import com.example.moviereviewplatform.service.impl.ImageServiceImpl;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,14 +13,14 @@ import java.io.InputStream;
 //@WebServlet("/images/*")
 public class ImageController extends HttpServlet {
 
-    private final ImageService imageService = ImageService.getInstance();
+    private final ImageServiceImpl imageServiceImpl = ImageServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var requestUri = req.getRequestURI();
         var imagePath = requestUri.replace("/images", "");
 
-        imageService.get(imagePath)
+        imageServiceImpl.get(imagePath)
                 .ifPresentOrElse(image -> {
                     resp.setContentType("application/octet-stream");
                     writeImage(image, resp);

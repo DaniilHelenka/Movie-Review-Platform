@@ -1,6 +1,6 @@
 package com.example.moviereviewplatform.servlet;
 
-import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.service.impl.MovieServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,13 +13,14 @@ import java.io.IOException;
 @WebServlet("/movies/delete")
 public class DeleteMovieController extends HttpServlet {
 
-    private final MovieService movieService = MovieService.getInstance();
+    private final MovieServiceImpl movieServiceImpl = MovieServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.getRequestDispatcher((JspHelper.getPath("deleteMovie")))
                 .forward(req, resp);
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String idParam = req.getParameter("id");
@@ -30,7 +31,7 @@ public class DeleteMovieController extends HttpServlet {
         }
         try {
             Integer movieId = Integer.valueOf(idParam);
-            boolean isDeleted = movieService.deleteMovie(movieId);
+            boolean isDeleted = movieServiceImpl.deleteMovie(movieId);
 
             if (isDeleted) {
                 resp.sendRedirect("/MovieReviewPlatform_war_exploded/movies"); // Успешно удален, редирект на список фильмов

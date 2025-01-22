@@ -1,8 +1,7 @@
 package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.dto.UserDto;
-import com.example.moviereviewplatform.dto.WatchlistDto;
-import com.example.moviereviewplatform.service.WatchlistService;
+import com.example.moviereviewplatform.service.impl.WatchlistServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,13 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/watchlist/add")
 public class AddToWatchlistController extends HttpServlet {
-    private final WatchlistService watchlistService = WatchlistService.getInstance();
+    private final WatchlistServiceImpl watchlistServiceImpl = WatchlistServiceImpl.getInstance();
 
     private static final String USER = "user";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Получаем ID пользователя из сессии
@@ -41,7 +40,7 @@ public class AddToWatchlistController extends HttpServlet {
             Integer movieId = Integer.parseInt(movieIdStr);
 
             // Добавляем фильм в список пользователя с указанным типом
-            watchlistService.addMovieToWatchlist(userId, movieId, listType);
+            watchlistServiceImpl.addMovieToWatchlist(userId, movieId, listType);
 
             // Перенаправляем обратно на страницу профиля
             resp.sendRedirect("/MovieReviewPlatform_war_exploded/user");

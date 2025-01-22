@@ -12,11 +12,14 @@ public class ConnectionManager {
             throw new RuntimeException("PostgreSQL Driver not found", e);
         }
     }
+
     private static PropertiesUtil config = new PropertiesUtil();
+
     public ConnectionManager(PropertiesUtil config) {
 
-        this.config=config;
+        this.config = config;
     }
+
     public static Connection get() throws SQLException {
         return DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
     }

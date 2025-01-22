@@ -2,8 +2,8 @@ package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.dto.UserDto;
-import com.example.moviereviewplatform.service.ImageService;
-import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.service.impl.ImageServiceImpl;
+import com.example.moviereviewplatform.service.impl.MovieServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,8 +16,8 @@ import java.util.List;
 
 @WebServlet("/movies")
 public class MovieController extends HttpServlet {
-    private final MovieService movieService = MovieService.getInstance();
-    private final ImageService imageService = ImageService.getInstance();
+    private final MovieServiceImpl movieServiceImpl = MovieServiceImpl.getInstance();
+    private final ImageServiceImpl imageServiceImpl = ImageServiceImpl.getInstance();
     private static final String USER = "user";
 
     @Override
@@ -49,11 +49,11 @@ public class MovieController extends HttpServlet {
         }
 
         // Получение фильмов с пагинацией
-        List<MovieDto> moviesPaginated = movieService.findAllPaginated(page, size);
+        List<MovieDto> moviesPaginated = movieServiceImpl.findAllPaginated(page, size);
         req.setAttribute("movies", moviesPaginated);
         req.setAttribute("currentPage", page);
         req.setAttribute("pageSize", size);
-        var movies = movieService.findAll();
+        var movies = movieServiceImpl.findAll();
 
         int totalMovies = movies.size(); // Общее количество фильмов
         int totalPages = (int) Math.ceil((double) totalMovies / size); // Количество страниц
@@ -71,7 +71,7 @@ public class MovieController extends HttpServlet {
 
         // Обработка изображений (если необходимо)
         for (MovieDto movie : moviesPaginated) {
-            imageService.get(movie.getPoster_url());
+            imageServiceImpl.get(movie.getPoster_url());
         }
 
         // Передача управления на JSP

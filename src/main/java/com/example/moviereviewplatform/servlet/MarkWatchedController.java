@@ -1,7 +1,7 @@
 package com.example.moviereviewplatform.servlet;
 
 
-import com.example.moviereviewplatform.service.MovieService;
+import com.example.moviereviewplatform.service.impl.MovieServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,8 +24,8 @@ public class MarkWatchedController extends HttpServlet {
 
                 // Логика перемещения фильма из watching в watched
                 // Например, через сервис
-                MovieService movieService = MovieService.getInstance();
-                movieService.moveToWatched(movieId);
+                MovieServiceImpl movieServiceImpl = MovieServiceImpl.getInstance();
+                movieServiceImpl.moveToWatched(movieId);
 
                 // Перенаправляем пользователя обратно в личный кабинет или на страницу фильмов
                 response.sendRedirect(request.getContextPath() + "/user"); // Укажите путь, куда хотите отправить
