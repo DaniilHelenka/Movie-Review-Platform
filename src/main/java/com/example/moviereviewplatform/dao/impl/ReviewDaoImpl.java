@@ -1,11 +1,14 @@
-package com.example.moviereviewplatform.dao;
+package com.example.moviereviewplatform.dao.impl;
 
+import com.example.moviereviewplatform.dao.AbstractHibernateDao;
+import com.example.moviereviewplatform.dao.ReviewDao;
 import com.example.moviereviewplatform.entity.Reviews;
 import com.example.moviereviewplatform.util.HibernateUtil;
 import org.hibernate.SessionFactory;
+
 import java.util.List;
 
-public class ReviewDaoImpl extends AbstractHibernateDao<Integer, Reviews> implements ReviewDao{
+public class ReviewDaoImpl extends AbstractHibernateDao<Integer, Reviews> implements ReviewDao {
 
     private static final ReviewDaoImpl INSTANCE = new ReviewDaoImpl(HibernateUtil.getSessionFactory());
 

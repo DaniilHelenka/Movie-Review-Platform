@@ -1,7 +1,7 @@
 package com.example.moviereviewplatform.servlet;
 
 import com.example.moviereviewplatform.dto.UserDto;
-import com.example.moviereviewplatform.service.UserService;
+import com.example.moviereviewplatform.service.impl.UserServiceImpl;
 import com.example.moviereviewplatform.util.JspHelper;
 import com.example.moviereviewplatform.util.UrlPath;
 import jakarta.servlet.ServletException;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(UrlPath.LOGIN)
 public class LoginController extends HttpServlet {
-    private final UserService userService = UserService.getInstance();
+    private final UserServiceImpl userServiceImpl = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +25,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        userService.login(req.getParameter("email"), req.getParameter("password"))
+        userServiceImpl.login(req.getParameter("email"), req.getParameter("password"))
                 .ifPresentOrElse(
                         user -> onLoginSuccess(user, req, resp),
                         () -> onLoginFail(req, resp)

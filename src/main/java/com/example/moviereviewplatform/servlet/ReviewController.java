@@ -3,9 +3,9 @@ package com.example.moviereviewplatform.servlet;
 import com.example.moviereviewplatform.dto.MovieDto;
 import com.example.moviereviewplatform.dto.ReviewDto;
 import com.example.moviereviewplatform.dto.UserDto;
-import com.example.moviereviewplatform.service.MovieService;
-import com.example.moviereviewplatform.service.ReviewService;
-import com.example.moviereviewplatform.service.UserService;
+import com.example.moviereviewplatform.service.impl.MovieServiceImpl;
+import com.example.moviereviewplatform.service.impl.ReviewServiceImpl;
+import com.example.moviereviewplatform.service.impl.UserServiceImpl;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,9 +20,9 @@ import java.util.Optional;
 
 @WebServlet("/review")
 public class ReviewController extends HttpServlet {
-    private final ReviewService reviewService = ReviewService.getInstance();
-    private final UserService userService = UserService.getInstance();
-    private final MovieService movieService = MovieService.getInstance();
+    private final ReviewServiceImpl reviewServiceImpl = ReviewServiceImpl.getInstance();
+    private final UserServiceImpl userServiceImpl = UserServiceImpl.getInstance();
+    private final MovieServiceImpl movieServiceImpl = MovieServiceImpl.getInstance();
     private static final String USER = "user";
 
     @SneakyThrows
@@ -36,9 +36,9 @@ public class ReviewController extends HttpServlet {
         try {
             int movieId = Integer.parseInt(movieIdParam);
             // Получаем все отзывы для фильма
-            List<ReviewDto> reviews = reviewService.findAllByMovieId(movieId);
+            List<ReviewDto> reviews = reviewServiceImpl.findAllByMovieId(movieId);
 
-            Optional<MovieDto> movieOptional = movieService.findById(movieId);
+            Optional<MovieDto> movieOptional = movieServiceImpl.findById(movieId);
             if (movieOptional.isEmpty()) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Фильм с указанным идентификатором не найден.");
                 return;
@@ -66,17 +66,15 @@ public class ReviewController extends HttpServlet {
         var user = (UserDto) session.getAttribute(USER);
         //userService.getId((Integer) req.getSession().getAttribute("user_id"));
         Integer user_id = user.getId();
-       // Integer user_id = Integer.valueOf(req.getParameter("user_id"));
+        // Integer user_id = Integer.valueOf(req.getParameter("user_id"));
         Integer movie_id = Integer.parseInt(req.getParameter("movie_id"));
         Integer rating = Integer.parseInt(req.getParameter("rating"));
         String comments = req.getParameter("comments");
         LocalDateTime created_at = LocalDateTime.now();
 
-        reviewService.addReview(user_id, movie_id, rating, comments);
+        reviewServiceImpl.addReview(user_id, movie_id, rating, comments);
         resp.sendRedirect("/MovieReviewPlatform_war_exploded/review?movieId=" + movie_id);
     }
-
-
     @SneakyThrows
     private void postReview(UserDto user, HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().setAttribute("user", user);

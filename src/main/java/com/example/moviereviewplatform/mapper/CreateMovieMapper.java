@@ -22,9 +22,8 @@ public class CreateMovieMapper implements Mapper<CreateMovieDto, Movies> {
                 .poster_url(IMAGE_FOLDER + object.getPoster_url().getSubmittedFileName())
                 .build();
     }
+
     public static CreateMovieMapper getInstance() {
         return INSTANCE;
     }
-
-
 }

@@ -15,9 +15,9 @@ public class UnsafeFilter implements Filter {
         var user = (UserDto) ((HttpServletRequest) servletRequest).getSession().getAttribute("user");
 
         if (user != null) {
-            filterChain.doFilter(servletRequest,servletResponse);
-        }else{
-            ((HttpServletResponse)servletResponse).sendRedirect("/registration");
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            ((HttpServletResponse) servletResponse).sendRedirect("/registration");
         }
     }
 }

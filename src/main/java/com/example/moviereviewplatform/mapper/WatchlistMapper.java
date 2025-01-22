@@ -7,7 +7,8 @@ public class WatchlistMapper {
 
     private static final WatchlistMapper INSTANCE = new WatchlistMapper();
 
-    private WatchlistMapper() {}
+    private WatchlistMapper() {
+    }
 
     public static WatchlistMapper getInstance() {
         return INSTANCE;

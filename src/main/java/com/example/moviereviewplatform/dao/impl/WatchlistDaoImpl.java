@@ -1,12 +1,14 @@
-package com.example.moviereviewplatform.dao;
+package com.example.moviereviewplatform.dao.impl;
 
+import com.example.moviereviewplatform.dao.AbstractHibernateDao;
+import com.example.moviereviewplatform.dao.WatchlistDao;
 import com.example.moviereviewplatform.entity.Watchlist;
 import com.example.moviereviewplatform.util.HibernateUtil;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class WatchlistDaoImpl extends AbstractHibernateDao<Integer, Watchlist> implements WatchlistDao{
+public class WatchlistDaoImpl extends AbstractHibernateDao<Integer, Watchlist> implements WatchlistDao {
 
     private static final WatchlistDaoImpl INSTANCE = new WatchlistDaoImpl(HibernateUtil.getSessionFactory());
 

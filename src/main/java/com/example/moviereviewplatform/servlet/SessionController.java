@@ -13,8 +13,6 @@ import java.io.IOException;
 public class SessionController extends HttpServlet {
 
     private static final String USER = "user";
-
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var session = req.getSession(false);
